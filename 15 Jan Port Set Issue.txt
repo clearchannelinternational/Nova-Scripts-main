@@ -1,0 +1,421 @@
+alvinrpi@raspberrypi:~/5eyes/v106 $ python display_status.py
+15/01/2025 15:31:27 display_status INFO     *********************************************************************************************************************************************
+15/01/2025 15:31:27 display_status INFO     5Eyes - Starting Display Status Checks
+15/01/2025 15:31:27 display_status INFO     Loading config.json
+15/01/2025 15:31:27 display_status INFO     Version: 1.0.6, Baudrate: 115200, Sleep Time: 0.6, Flash Timeout: 15
+15/01/2025 15:31:27 display_status INFO     Reading from status.json
+15/01/2025 15:31:27 display_status INFO     Setting up serial port
+15/01/2025 15:31:27 display_status INFO     Found 2 serial ports
+15/01/2025 15:31:27 display_status INFO     Searching sender card on port: /dev/ttyAMA10
+15/01/2025 15:31:27 display_status INFO     /dev/ttyAMA10 opened
+15/01/2025 15:31:27 display_status DEBUG    Sending command: 55 AA 00 AA FE 00 00 00 00 00 00 00 02 00 00 00 02 00 01 57
+15/01/2025 15:31:27 display_status INFO     /dev/ttyAMA10 closed
+15/01/2025 15:31:27 display_status INFO     Searching sender card on port: /dev/ttyUSB0
+15/01/2025 15:31:27 display_status INFO     /dev/ttyUSB0 opened
+15/01/2025 15:31:27 display_status DEBUG    Sending command: 55 AA 00 AA FE 00 00 00 00 00 00 00 02 00 00 00 02 00 01 57
+15/01/2025 15:31:28 display_status DEBUG    Received data:AA 55 00 AA 00 FE 00 00 00 00 00 00 02 00 00 00 02 00 01 00 02 57
+15/01/2025 15:31:28 display_status INFO     Device found on port: /dev/ttyUSB0 | CP2102N USB to UART Bridge Controller | USB VID:PID=10C4:EA60 SER=96e6c34f8c9fec11bb7e073643a0c072 LOCATION=3-1
+15/01/2025 15:31:30 display_status INFO     /dev/ttyUSB0 closed
+15/01/2025 15:31:30 display_status INFO     Found 1 device(s)
+15/01/2025 15:31:30 display_status INFO     *******************    DEVICE 0   *******************
+15/01/2025 15:31:30 display_status INFO     Connecting to device on /dev/ttyUSB0
+15/01/2025 15:31:30 display_status INFO     Opened device on port: /dev/ttyUSB0
+15/01/2025 15:31:30 display_status INFO     Getting sender card model
+15/01/2025 15:31:30 display_status DEBUG    Sending command: 55 AA 00 32 FE 00 00 00 00 00 00 00 02 00 00 00 02 00 89 56
+15/01/2025 15:31:30 display_status DEBUG    Received data: AA 55 00 32 00 FE 00 00 00 00 00 00 02 00 00 00 02 00 01 00 8A 56
+15/01/2025 15:31:30 display_status INFO     Sender card model: MSD300/MCTRL300
+15/01/2025 15:31:30 display_status INFO     Getting device firmware version
+15/01/2025 15:31:30 display_status DEBUG    Sending command: 55 AA 00 15 FE 00 00 00 00 00 00 00 04 00 10 04 04 00 84 56
+15/01/2025 15:31:31 display_status DEBUG    Received data: AA 55 00 15 00 FE 00 00 00 00 00 00 04 00 10 04 04 00 04 07 08 00 97 56
+15/01/2025 15:31:31 display_status INFO     Sender card firmware version: 4.7.8.0
+15/01/2025 15:31:31 display_status INFO     Getting current screen brightness...[TO CHECK]
+15/01/2025 15:31:31 display_status DEBUG    Sending command: 55 AA 00 15 FE 00 01 00 00 00 00 00 01 00 00 02 05 00 71 56
+15/01/2025 15:31:31 display_status DEBUG    Received data: AA 55 01 15 00 FE 01 00 00 00 00 00 01 00 00 02 05 00 21 46 69 00 34 76 57
+15/01/2025 15:31:31 display_status ERROR    Command failed due to time out (time out on trying to access devices connected to a sending card)
+15/01/2025 15:31:31 display_status INFO     Getting function card model
+15/01/2025 15:31:31 display_status DEBUG    Sending command: 55 AA 00 32 FE 00 02 00 00 00 00 00 02 00 00 00 02 00 8B 56
+15/01/2025 15:31:32 display_status DEBUG    Received data: AA 55 01 32 00 FE 02 00 00 00 00 00 02 00 00 00 02 00 21 46 F3 56
+15/01/2025 15:31:32 display_status ERROR    Command failed due to time out (time out on trying to access devices connected to a sending card)
+15/01/2025 15:31:32 display_status INFO     Function card model: N/A
+15/01/2025 15:31:32 display_status INFO     Getting ambient light level directly from controller
+15/01/2025 15:31:32 display_status DEBUG    Sending command: 55 AA 00 5B FE 00 00 00 00 00 00 00 0F 00 00 02 02 00 C1 56
+15/01/2025 15:31:33 display_status DEBUG    Received data: AA 55 00 5B 00 FE 00 00 00 00 00 00 0F 00 00 02 02 00 BD 80 FE 57
+15/01/2025 15:31:33 display_status INFO     Ambient Light Level (lux): 48573.0 
+15/01/2025 15:31:33 display_status INFO     Getting automatic brightness mode
+15/01/2025 15:31:33 display_status DEBUG    Sending command: 55 AA 00 5B FE 00 00 00 00 00 00 00 00 00 00 0A 01 00 B9 56
+15/01/2025 15:31:33 display_status DEBUG    Received data: AA 55 00 5B 00 FE 00 00 00 00 00 00 00 00 00 0A 01 00 00 B9 56
+15/01/2025 15:31:33 display_status INFO     Automatic Brightness Mode: Unkown (0x00)
+15/01/2025 15:31:33 display_status INFO     Getting Automatic Brightness Settings...[TO CHECK]
+15/01/2025 15:31:33 display_status DEBUG    Sending command: 55 AA 00 5B FE 00 00 00 00 00 00 00 01 00 00 0A 2F 00 B9 56
+15/01/2025 15:31:34 display_status DEBUG    Received data: AA 55 00 5B 00 FE 00 00 00 00 00 00 01 00 00 0A 2F 00 06 01 00 01 01 01 02 01 00 03 01 01 3C 00 05 01 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 3D 57
+15/01/2025 15:31:34 display_status INFO     Number of light sensors: 6
+15/01/2025 15:31:34 display_status INFO     Max Lux: 257
+15/01/2025 15:31:34 display_status INFO     Min Lux: 258
+15/01/2025 15:31:34 display_status INFO     Max Brightness (0-255): 0
+15/01/2025 15:31:34 display_status INFO     Max Brightness: 0% 
+15/01/2025 15:31:34 display_status INFO     Min Brightness (0-255): 3
+15/01/2025 15:31:34 display_status INFO     Min Brightness: 1% 
+15/01/2025 15:31:34 display_status INFO     Number of steps: 1
+15/01/2025 15:31:34 display_status INFO     Light Sensor Position: 0
+15/01/2025 15:31:34 display_status INFO     Port Address Position: 0
+15/01/2025 15:31:34 display_status INFO     Function Card Position: 0x0 0x0
+15/01/2025 15:31:34 display_status INFO     Address of sensor on Function Card: 0
+15/01/2025 15:31:34 display_status INFO     Getting DVI signal
+15/01/2025 15:31:34 display_status DEBUG    Sending command: 55 AA 00 16 FE 00 00 00 00 00 00 00 17 00 00 02 01 00 83 56 20
+15/01/2025 15:31:34 display_status DEBUG    Received data: AA 55 00 16 00 FE 00 00 00 00 00 00 17 00 00 02 01 00 01 84 56
+15/01/2025 15:31:34 display_status INFO     DVI signal: Valid
+15/01/2025 15:31:34 display_status INFO     Getting cabinet width...
+15/01/2025 15:31:34 display_status DEBUG    Sending command: 55 AA 00 32 FE 00 00 00 00 00 00 00 06 00 10 02 02 00 9F 56
+15/01/2025 15:31:35 display_status DEBUG    Received data: AA 55 00 32 00 FE 00 00 00 00 00 00 06 00 10 02 02 00 00 00 00 00 00 00 80 00 80 00 01 01 00 01 00 A2 57
+15/01/2025 15:31:35 display_status INFO     Cabinet width (pixels): 0 
+15/01/2025 15:31:35 display_status INFO     Getting cabinet height...
+15/01/2025 15:31:35 display_status DEBUG    Sending command: 55 AA 00 32 FE 00 00 00 00 00 00 00 08 00 10 02 02 00 A1 56
+15/01/2025 15:31:36 display_status DEBUG    Received data: AA 55 00 32 00 FE 00 00 00 00 00 00 08 00 10 02 02 00 00 00 00 00 00 00 80 00 80 00 01 01 00 01 00 A4 57
+15/01/2025 15:31:36 display_status INFO     Cabinet height (pixels): 0 
+15/01/2025 15:31:36 display_status INFO     Getting EDID 1.3 register
+15/01/2025 15:31:36 display_status DEBUG    Sending command: 55 AA 00 15 FE 00 00 00 00 00 00 00 00 00 00 08 7F 00 EF 56
+15/01/2025 15:31:36 display_status DEBUG    Received data: 55 55
+15/01/2025 15:31:36 display_status INFO     Getting redundancy status
+15/01/2025 15:31:36 display_status DEBUG    Sending command: 55 AA 00 15 FE 00 00 00 00 00 00 00 00 1E 00 02 01 00 89 56
+15/01/2025 15:31:37 display_status DEBUG    Received data: AA 55 00 15 00 FE 00 00 00 00 00 00 00 1E 00 02 01 00 00 89 56
+15/01/2025 15:31:37 display_status INFO     Port 1: 00
+15/01/2025 15:31:37 display_status INFO     Port 2: 00
+15/01/2025 15:31:37 display_status INFO     Port 3: 00
+15/01/2025 15:31:37 display_status INFO     Port 4: 00
+15/01/2025 15:31:37 display_status DEBUG    *********** Port: 0 Set ***********
+15/01/2025 15:31:37 display_status DEBUG    changed command: 55 AA 00 AA FE 00 00 00 00 00 00 00 02 00 00 00 02 00 01 57
+15/01/2025 15:31:37 display_status DEBUG    changed command: 55 AA 00 32 FE 00 00 00 00 00 00 00 02 00 00 00 02 00 89 56
+15/01/2025 15:31:37 display_status DEBUG    changed command: 55 AA 00 15 FE 00 00 00 00 00 00 00 04 00 10 04 04 00 84 56
+15/01/2025 15:31:37 display_status DEBUG    changed command: 55 AA 00 32 FE 00 01 00 00 00 00 00 04 00 00 08 04 00 96 56
+15/01/2025 15:31:37 display_status DEBUG    changed command: 55 AA 00 15 FE 00 01 00 00 00 00 00 00 00 00 00 02 00 6B 56
+15/01/2025 15:31:37 display_status DEBUG    changed command: 55 AA 00 32 FE 00 01 00 00 00 00 00 00 00 00 0A 00 01 91 56
+15/01/2025 15:31:37 display_status DEBUG    changed command: 55 AA 00 32 FE 00 00 00 00 00 00 00 22 00 00 02 01 00 AA 56
+15/01/2025 15:31:37 display_status DEBUG    changed command: 55 AA 00 32 FE 00 00 00 00 00 00 00 23 00 00 02 01 00 AB 56
+15/01/2025 15:31:37 display_status DEBUG    changed command: 55 AA 00 32 FE 00 00 00 00 00 00 00 4D 00 00 02 01 00 D5 56
+15/01/2025 15:31:37 display_status DEBUG    changed command: 55 AA 00 16 FE 00 00 00 00 00 00 00 17 00 00 02 01 00 83 56 20
+15/01/2025 15:31:37 display_status DEBUG    changed command: 55 AA 00 5B FE 00 00 00 00 00 00 00 00 00 00 0A 01 00 B9 56
+15/01/2025 15:31:37 display_status DEBUG    changed command: 55 AA 00 5B FE 00 00 00 00 00 00 00 0F 00 00 02 02 00 C1 56
+15/01/2025 15:31:37 display_status DEBUG    changed command: 55 AA 00 15 FE 00 02 00 00 00 00 00 00 00 00 06 05 00 75 56
+15/01/2025 15:31:37 display_status DEBUG    changed command: 55 AA 00 14 FE 00 01 00 00 00 00 00 01 00 00 02 05 00 70 56
+15/01/2025 15:31:37 display_status DEBUG    changed command: 55 AA 00 15 FE 00 01 00 00 00 00 00 01 00 00 02 05 00 71 56
+15/01/2025 15:31:37 display_status DEBUG    changed command: 55 AA 00 80 FE 00 01 00 00 00 00 00 00 01 00 02 01 00 D8 57
+15/01/2025 15:31:37 display_status DEBUG    changed command: 55 AA 00 80 FE 00 01 00 00 00 00 00 02 01 00 02 01 00 D8 57
+15/01/2025 15:31:37 display_status DEBUG    changed command: 55 AA 00 32 FE 00 00 00 00 00 00 00 06 00 10 02 02 00 9F 56
+15/01/2025 15:31:37 display_status DEBUG    changed command: 55 AA 00 32 FE 00 00 00 00 00 00 00 08 00 10 02 02 00 A1 56
+15/01/2025 15:31:37 display_status DEBUG    changed command: 55 AA 00 15 FE 00 01 00 00 00 00 00 00 00 00 02 01 00 6C 56
+15/01/2025 15:31:37 display_status DEBUG    changed command: 55 AA 00 5B FE 00 00 00 00 00 00 00 01 00 00 0A 2F 00 E8 56
+15/01/2025 15:31:37 display_status DEBUG    changed command: 55 AA 00 F2 FE 00 01 00 00 00 01 00 74 00 00 01 01 00 04 C1 57
+15/01/2025 15:31:37 display_status DEBUG    changed command: 55 AA 00 03 FE 00 01 00 00 00 00 00 10 30 00 03 10 00 AA 56
+15/01/2025 15:31:37 display_status DEBUG    changed command: 55 AA 00 32 FE 00 01 00 00 00 00 00 42 00 00 0A 10 00 E2 56
+15/01/2025 15:31:37 display_status DEBUG    changed command: 55 AA 00 15 FE 00 00 00 00 00 00 00 00 00 00 08 7F 00 EF 56
+15/01/2025 15:31:37 display_status DEBUG    changed command: 55 AA 00 15 FE 00 00 00 00 00 00 00 00 1E 00 02 01 00 89 56
+15/01/2025 15:31:37 display_status DEBUG    changed command: 55 AA 00 32 FE 00 02 00 00 00 00 00 02 00 00 00 02 00 8B 56
+15/01/2025 15:31:37 display_status DEBUG    changed command: 55 AA 00 15 FE 00 02 00 00 00 01 00 00 00 00 06 0B 00 00 00 00 00 55 AA 01 02 80 FF 81 7E 59
+15/01/2025 15:31:37 display_status DEBUG    changed command: 55 AA 00 C4 FE 00 01 00 00 00 00 00 0A 00 00 0A 18 00 7E 59
+15/01/2025 15:31:37 display_status DEBUG    changed command: 55 AA 00 C4 FE 00 01 00 00 00 00 00 0A 00 00 0A 18 00 7E 59
+15/01/2025 15:31:37 display_status INFO     =============================================================================================================================================
+15/01/2025 15:31:37 display_status INFO     Connecting to receiver number: 0
+15/01/2025 15:31:37 display_status DEBUG    Sending command: 55 AA 00 15 FE 00 01 00 00 00 00 00 00 00 00 00 02 00 6B 56
+15/01/2025 15:31:37 display_status DEBUG    Received data: AA 55 01 15 00 FE 01 00 00 00 00 00 00 00 00 00 02 00 21 46 D3 56
+15/01/2025 15:31:37 display_status ERROR    Command failed due to time out (time out on trying to access devices connected to a sending card)
+15/01/2025 15:31:37 display_status INFO     Receiver card not connected.
+15/01/2025 15:31:37 display_status DEBUG    *********** Port: 1 Set ***********
+15/01/2025 15:31:37 display_status DEBUG    changed command: 55 AA 00 AA FE 00 00 01 00 00 00 00 02 00 00 00 02 00 01 57
+15/01/2025 15:31:37 display_status DEBUG    changed command: 55 AA 00 32 FE 00 00 01 00 00 00 00 02 00 00 00 02 00 89 56
+15/01/2025 15:31:37 display_status DEBUG    changed command: 55 AA 00 15 FE 00 00 01 00 00 00 00 04 00 10 04 04 00 84 56
+15/01/2025 15:31:37 display_status DEBUG    changed command: 55 AA 00 32 FE 00 01 01 00 00 00 00 04 00 00 08 04 00 96 56
+15/01/2025 15:31:37 display_status DEBUG    changed command: 55 AA 00 15 FE 00 01 01 00 00 00 00 00 00 00 00 02 00 6B 56
+15/01/2025 15:31:37 display_status DEBUG    changed command: 55 AA 00 32 FE 00 01 01 00 00 00 00 00 00 00 0A 00 01 91 56
+15/01/2025 15:31:37 display_status DEBUG    changed command: 55 AA 00 32 FE 00 00 01 00 00 00 00 22 00 00 02 01 00 AA 56
+15/01/2025 15:31:37 display_status DEBUG    changed command: 55 AA 00 32 FE 00 00 01 00 00 00 00 23 00 00 02 01 00 AB 56
+15/01/2025 15:31:37 display_status DEBUG    changed command: 55 AA 00 32 FE 00 00 01 00 00 00 00 4D 00 00 02 01 00 D5 56
+15/01/2025 15:31:37 display_status DEBUG    changed command: 55 AA 00 16 FE 00 00 01 00 00 00 00 17 00 00 02 01 00 83 56 20
+15/01/2025 15:31:37 display_status DEBUG    changed command: 55 AA 00 5B FE 00 00 01 00 00 00 00 00 00 00 0A 01 00 B9 56
+15/01/2025 15:31:37 display_status DEBUG    changed command: 55 AA 00 5B FE 00 00 01 00 00 00 00 0F 00 00 02 02 00 C1 56
+15/01/2025 15:31:37 display_status DEBUG    changed command: 55 AA 00 15 FE 00 02 01 00 00 00 00 00 00 00 06 05 00 75 56
+15/01/2025 15:31:37 display_status DEBUG    changed command: 55 AA 00 14 FE 00 01 01 00 00 00 00 01 00 00 02 05 00 70 56
+15/01/2025 15:31:38 display_status DEBUG    changed command: 55 AA 00 15 FE 00 01 01 00 00 00 00 01 00 00 02 05 00 71 56
+15/01/2025 15:31:38 display_status DEBUG    changed command: 55 AA 00 80 FE 00 01 01 00 00 00 00 00 01 00 02 01 00 D8 57
+15/01/2025 15:31:38 display_status DEBUG    changed command: 55 AA 00 80 FE 00 01 01 00 00 00 00 02 01 00 02 01 00 D8 57
+15/01/2025 15:31:38 display_status DEBUG    changed command: 55 AA 00 32 FE 00 00 01 00 00 00 00 06 00 10 02 02 00 9F 56
+15/01/2025 15:31:38 display_status DEBUG    changed command: 55 AA 00 32 FE 00 00 01 00 00 00 00 08 00 10 02 02 00 A1 56
+15/01/2025 15:31:38 display_status DEBUG    changed command: 55 AA 00 15 FE 00 01 01 00 00 00 00 00 00 00 02 01 00 6C 56
+15/01/2025 15:31:38 display_status DEBUG    changed command: 55 AA 00 5B FE 00 00 01 00 00 00 00 01 00 00 0A 2F 00 E8 56
+15/01/2025 15:31:38 display_status DEBUG    changed command: 55 AA 00 F2 FE 00 01 01 00 00 01 00 74 00 00 01 01 00 04 C1 57
+15/01/2025 15:31:38 display_status DEBUG    changed command: 55 AA 00 03 FE 00 01 01 00 00 00 00 10 30 00 03 10 00 AA 56
+15/01/2025 15:31:38 display_status DEBUG    changed command: 55 AA 00 32 FE 00 01 01 00 00 00 00 42 00 00 0A 10 00 E2 56
+15/01/2025 15:31:38 display_status DEBUG    changed command: 55 AA 00 15 FE 00 00 01 00 00 00 00 00 00 00 08 7F 00 EF 56
+15/01/2025 15:31:38 display_status DEBUG    changed command: 55 AA 00 15 FE 00 00 01 00 00 00 00 00 1E 00 02 01 00 89 56
+15/01/2025 15:31:38 display_status DEBUG    changed command: 55 AA 00 32 FE 00 02 01 00 00 00 00 02 00 00 00 02 00 8B 56
+15/01/2025 15:31:38 display_status DEBUG    changed command: 55 AA 00 15 FE 00 02 01 00 00 01 00 00 00 00 06 0B 00 00 00 00 00 55 AA 01 02 80 FF 81 7E 59
+15/01/2025 15:31:38 display_status DEBUG    changed command: 55 AA 00 C4 FE 00 01 01 00 00 00 00 0A 00 00 0A 18 00 7E 59
+15/01/2025 15:31:38 display_status DEBUG    changed command: 55 AA 00 C4 FE 00 01 01 00 00 00 00 0A 00 00 0A 18 00 7E 59
+15/01/2025 15:31:38 display_status INFO     =============================================================================================================================================
+15/01/2025 15:31:38 display_status INFO     Connecting to receiver number: 1
+15/01/2025 15:31:38 display_status DEBUG    Sending command: 55 AA 00 15 FE 00 01 01 00 00 00 00 00 00 00 00 02 00 6C 56
+15/01/2025 15:31:38 display_status DEBUG    Received data: AA 55 00 15 00 FE 01 01 00 00 00 00 00 00 00 00 02 00 21 46 D3 56
+15/01/2025 15:31:38 display_status INFO     Getting receiver card model
+15/01/2025 15:31:38 display_status DEBUG    Sending command: 55 AA 00 15 FE 00 01 01 00 00 00 00 00 00 00 00 02 00 6C 56
+15/01/2025 15:31:39 display_status DEBUG    Received data: AA 55 00 15 00 FE 01 01 00 00 00 00 00 00 00 00 02 00 21 46 D3 56
+15/01/2025 15:31:39 display_status INFO     Receiver card model: Nova A5s Plus
+15/01/2025 15:31:39 display_status INFO     Getting receiver card firmware
+15/01/2025 15:31:39 display_status DEBUG    Sending command: 55 AA 00 32 FE 00 01 01 00 00 00 00 04 00 00 08 04 00 97 56
+15/01/2025 15:31:39 display_status DEBUG    Received data: AA 55 00 32 00 FE 01 01 00 00 00 00 04 00 00 08 04 00 04 07 02 90 34 57
+15/01/2025 15:31:39 display_status INFO     Receiver Card FPGA Firmware version: 4.7.2.90
+15/01/2025 15:31:39 display_status INFO     Getting cabinet kill mode (on/off)
+15/01/2025 15:31:39 display_status DEBUG    Sending command: 55 AA 00 80 FE 00 01 01 00 00 00 00 00 01 00 02 01 00 D9 56
+15/01/2025 15:31:40 display_status DEBUG    Received data: AA 55 00 80 00 FE 01 01 00 00 00 00 00 01 00 02 01 00 00 D9 56
+15/01/2025 15:31:40 display_status INFO     Cabinet Operating Status (Kill mode): ON
+15/01/2025 15:31:40 display_status INFO     Getting current receiver card brightness...[TO CHECK]
+15/01/2025 15:31:40 display_status DEBUG    Sending command: 55 AA 00 14 FE 00 01 01 00 00 00 00 01 00 00 02 05 00 71 56
+15/01/2025 15:31:41 display_status DEBUG    Received data: AA 55 00 14 00 FE 01 01 00 00 00 00 01 00 00 02 05 00 CC CC CC CC CC 6D 5A
+15/01/2025 15:31:41 display_status INFO     Brightness Level: 204
+15/01/2025 15:31:41 display_status INFO     Global Brightness: 80%
+15/01/2025 15:31:41 display_status INFO     RED: 204
+15/01/2025 15:31:41 display_status INFO     GREEN: 204
+15/01/2025 15:31:41 display_status INFO     BLUE: 204
+15/01/2025 15:31:41 display_status INFO     vRED: 204
+15/01/2025 15:31:41 display_status INFO     Getting receiver card monitoring, temperature and voltage
+15/01/2025 15:31:41 display_status DEBUG    Sending command: 55 AA 00 32 FE 00 01 01 00 00 00 00 00 00 00 0A 00 01 92 56
+15/01/2025 15:31:41 display_status DEBUG    Received data: AA 55 00 32 00 FE 01 01 00 00 00 00 00 00 00 0A 00 01 80 46 00 AB 2D 00 00 00 00 00 FF 80 1E AD 34 2D 6F 02 00 00 00 00 00 00 00 00 00 00 00 00 00 00 80 01 80 01 80 01 80 01 FF 80 1C AD 70 77 70 02 00 00 00 00 00 00 00 00 00 00 00 00 00 00 80 01 80 01 80 01 80 01 FF 80 22 AD 80 F2 6C 02 00 00 00 00 00 00 00 00 00 00 00 00 00 00 80 01 80 01 80 01 80 01 FF 80 1E AD 04 2F 70 02 00 00 00 00 00 00 00 00 00 00 00 00 00 00 80 01 80 01 80 01 80 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 1A 6E
+15/01/2025 15:31:41 display_status INFO     Temperature (valid): 35.0 C (0x46)
+15/01/2025 15:31:41 display_status INFO     Voltage (valid): 4.3V (0xab)
+15/01/2025 15:31:41 display_status INFO     Monitoring card unavailable (0x80)
+15/01/2025 15:31:41 display_status INFO     Getting cabinet lock mode (normal/locked)
+15/01/2025 15:31:41 display_status DEBUG    Sending command: 55 AA 00 80 FE 00 01 01 00 00 00 00 02 01 00 02 01 00 DB 56
+15/01/2025 15:31:42 display_status DEBUG    Received data: AA 55 00 80 00 FE 01 01 00 00 00 00 02 01 00 02 01 00 00 DB 56
+15/01/2025 15:31:42 display_status INFO     Cabinet Lock Mode: NORMAL
+15/01/2025 15:31:42 display_status INFO     Getting current receiver card status...[TO CHECK]
+0 96
+15/01/2025 15:31:42 display_status DEBUG    Sending command: 55 AA 00 C4 FE 00 01 01 00 00 00 00 0A 00 00 0A 60 00 8D 57
+15/01/2025 15:31:42 display_status DEBUG    Received data size: 116
+15/01/2025 15:31:42 display_status DEBUG    Received data: AA 55 00 C4 00 FE 01 01 00 00 00 00 0A 00 00 0A 60 00 FF 80 24 AD 84 9F 70 02 00 00 00 00 00 00 00 00 00 00 00 00 00 00 80 01 80 01 80 01 80 01 FF 80 22 AD FC E9 71 02 00 00 00 00 00 00 00 00 00 00 00 00 00 00 80 01 80 01 80 01 80 01 FF 80 28 AD 68 63 6E 02 00 00 00 00 00 00 00 00 00 00 00 00 00 00 80 01 80 01 80 01 80 01 FF 80 26 AD 08 A2 AF 6C
+15/01/2025 15:31:42 display_status DEBUG    Modules Data:
+15/01/2025 15:31:42 display_status DEBUG    module_1_data: [255, 128, 36, 173, 132, 159, 112, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], Number: 1
+15/01/2025 15:31:42 display_status DEBUG    module_2_data: [255, 128, 34, 173, 252, 233, 113, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], Number: 2
+15/01/2025 15:31:42 display_status DEBUG    module_3_data: [255, 128, 40, 173, 104, 99, 110, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], Number: 3
+15/01/2025 15:31:42 display_status DEBUG    module_4_data: [255, 128, 38, 173, 8, 162, 175, 108], Number: 4
+15/01/2025 15:31:42 display_status DEBUG    Module 1 is functioning
+15/01/2025 15:31:42 display_status DEBUG    Module 2 is functioning
+15/01/2025 15:31:42 display_status DEBUG    Module 3 is functioning
+15/01/2025 15:31:42 display_status DEBUG    Module 4 is functioning
+15/01/2025 15:31:42 display_status ERROR    Fault detected in module 1 Line: RFU
+15/01/2025 15:31:42 display_status ERROR    Fault detected in module 1 Line: R
+15/01/2025 15:31:42 display_status ERROR    Fault detected in module 2 Line: RFU
+15/01/2025 15:31:42 display_status ERROR    Fault detected in module 2 Line: R
+15/01/2025 15:31:42 display_status ERROR    Fault detected in module 3 Line: RFU
+15/01/2025 15:31:42 display_status ERROR    Fault detected in module 3 Line: R
+15/01/2025 15:31:42 display_status ERROR    Fault detected in module 4 Line: RFU
+15/01/2025 15:31:42 display_status ERROR    Fault detected in module 4 Line: R
+15/01/2025 15:31:42 display_status INFO     All modules are functioning correctly.
+15/01/2025 15:31:42 display_status DEBUG    *********** Port: 0 Set ***********
+15/01/2025 15:31:42 display_status DEBUG    changed command: 55 AA 00 AA FE 00 00 00 00 00 00 00 02 00 00 00 02 00 01 57
+15/01/2025 15:31:42 display_status DEBUG    changed command: 55 AA 00 32 FE 00 00 00 00 00 00 00 02 00 00 00 02 00 89 56
+15/01/2025 15:31:42 display_status DEBUG    changed command: 55 AA 00 15 FE 00 00 00 00 00 00 00 04 00 10 04 04 00 84 56
+15/01/2025 15:31:42 display_status DEBUG    changed command: 55 AA 00 32 FE 00 01 00 00 00 00 00 04 00 00 08 04 00 97 56
+15/01/2025 15:31:42 display_status DEBUG    changed command: 55 AA 00 15 FE 00 01 00 00 00 00 00 00 00 00 00 02 00 6C 56
+15/01/2025 15:31:42 display_status DEBUG    changed command: 55 AA 00 32 FE 00 01 00 00 00 00 00 00 00 00 0A 00 01 92 56
+15/01/2025 15:31:42 display_status DEBUG    changed command: 55 AA 00 32 FE 00 00 00 00 00 00 00 22 00 00 02 01 00 AA 56
+15/01/2025 15:31:42 display_status DEBUG    changed command: 55 AA 00 32 FE 00 00 00 00 00 00 00 23 00 00 02 01 00 AB 56
+15/01/2025 15:31:42 display_status DEBUG    changed command: 55 AA 00 32 FE 00 00 00 00 00 00 00 4D 00 00 02 01 00 D5 56
+15/01/2025 15:31:42 display_status DEBUG    changed command: 55 AA 00 16 FE 00 00 00 00 00 00 00 17 00 00 02 01 00 83 56 20
+15/01/2025 15:31:42 display_status DEBUG    changed command: 55 AA 00 5B FE 00 00 00 00 00 00 00 00 00 00 0A 01 00 B9 56
+15/01/2025 15:31:42 display_status DEBUG    changed command: 55 AA 00 5B FE 00 00 00 00 00 00 00 0F 00 00 02 02 00 C1 56
+15/01/2025 15:31:42 display_status DEBUG    changed command: 55 AA 00 15 FE 00 02 00 00 00 00 00 00 00 00 06 05 00 75 56
+15/01/2025 15:31:42 display_status DEBUG    changed command: 55 AA 00 14 FE 00 01 00 00 00 00 00 01 00 00 02 05 00 71 56
+15/01/2025 15:31:42 display_status DEBUG    changed command: 55 AA 00 15 FE 00 01 00 00 00 00 00 01 00 00 02 05 00 71 56
+15/01/2025 15:31:42 display_status DEBUG    changed command: 55 AA 00 80 FE 00 01 00 00 00 00 00 00 01 00 02 01 00 D9 56
+15/01/2025 15:31:42 display_status DEBUG    changed command: 55 AA 00 80 FE 00 01 00 00 00 00 00 02 01 00 02 01 00 DB 56
+15/01/2025 15:31:42 display_status DEBUG    changed command: 55 AA 00 32 FE 00 00 00 00 00 00 00 06 00 10 02 02 00 9F 56
+15/01/2025 15:31:42 display_status DEBUG    changed command: 55 AA 00 32 FE 00 00 00 00 00 00 00 08 00 10 02 02 00 A1 56
+15/01/2025 15:31:42 display_status DEBUG    changed command: 55 AA 00 15 FE 00 01 00 00 00 00 00 00 00 00 02 01 00 6C 56
+15/01/2025 15:31:42 display_status DEBUG    changed command: 55 AA 00 5B FE 00 00 00 00 00 00 00 01 00 00 0A 2F 00 E8 56
+15/01/2025 15:31:42 display_status DEBUG    changed command: 55 AA 00 F2 FE 00 01 00 00 00 01 00 74 00 00 01 01 00 04 C1 57
+15/01/2025 15:31:42 display_status DEBUG    changed command: 55 AA 00 03 FE 00 01 00 00 00 00 00 10 30 00 03 10 00 AA 56
+15/01/2025 15:31:42 display_status DEBUG    changed command: 55 AA 00 32 FE 00 01 00 00 00 00 00 42 00 00 0A 10 00 E2 56
+15/01/2025 15:31:42 display_status DEBUG    changed command: 55 AA 00 15 FE 00 00 00 00 00 00 00 00 00 00 08 7F 00 EF 56
+15/01/2025 15:31:42 display_status DEBUG    changed command: 55 AA 00 15 FE 00 00 00 00 00 00 00 00 1E 00 02 01 00 89 56
+15/01/2025 15:31:42 display_status DEBUG    changed command: 55 AA 00 32 FE 00 02 00 00 00 00 00 02 00 00 00 02 00 8B 56
+15/01/2025 15:31:42 display_status DEBUG    changed command: 55 AA 00 15 FE 00 02 00 00 00 01 00 00 00 00 06 0B 00 00 00 00 00 55 AA 01 02 80 FF 81 7E 59
+15/01/2025 15:31:42 display_status DEBUG    changed command: 55 AA 00 C4 FE 00 01 00 00 00 00 00 0A 00 00 0A 18 00 7E 59
+15/01/2025 15:31:42 display_status DEBUG    changed command: 55 AA 00 C4 FE 00 01 00 00 00 00 00 0A 00 00 0A 60 00 8D 57
+15/01/2025 15:31:42 display_status INFO     =============================================================================================================================================
+15/01/2025 15:31:42 display_status INFO     Connecting to receiver number: 0
+15/01/2025 15:31:42 display_status DEBUG    Sending command: 55 AA 00 15 FE 00 01 00 01 00 00 00 00 00 00 00 02 00 6C 56
+15/01/2025 15:31:43 display_status DEBUG    Received data: AA 55 01 15 00 FE 01 00 01 00 00 00 00 00 00 00 02 00 FF 80 EC 57
+15/01/2025 15:31:43 display_status ERROR    Command failed due to time out (time out on trying to access devices connected to a sending card)
+15/01/2025 15:31:43 display_status INFO     Receiver card not connected.
+15/01/2025 15:31:43 display_status DEBUG    *********** Port: 1 Set ***********
+15/01/2025 15:31:43 display_status DEBUG    changed command: 55 AA 00 AA FE 00 00 01 00 00 00 00 02 00 00 00 02 00 01 57
+15/01/2025 15:31:43 display_status DEBUG    changed command: 55 AA 00 32 FE 00 00 01 00 00 00 00 02 00 00 00 02 00 89 56
+15/01/2025 15:31:43 display_status DEBUG    changed command: 55 AA 00 15 FE 00 00 01 00 00 00 00 04 00 10 04 04 00 84 56
+15/01/2025 15:31:43 display_status DEBUG    changed command: 55 AA 00 32 FE 00 01 01 00 00 00 00 04 00 00 08 04 00 97 56
+15/01/2025 15:31:43 display_status DEBUG    changed command: 55 AA 00 15 FE 00 01 01 01 00 00 00 00 00 00 00 02 00 6C 56
+15/01/2025 15:31:43 display_status DEBUG    changed command: 55 AA 00 32 FE 00 01 01 00 00 00 00 00 00 00 0A 00 01 92 56
+15/01/2025 15:31:43 display_status DEBUG    changed command: 55 AA 00 32 FE 00 00 01 00 00 00 00 22 00 00 02 01 00 AA 56
+15/01/2025 15:31:43 display_status DEBUG    changed command: 55 AA 00 32 FE 00 00 01 00 00 00 00 23 00 00 02 01 00 AB 56
+15/01/2025 15:31:43 display_status DEBUG    changed command: 55 AA 00 32 FE 00 00 01 00 00 00 00 4D 00 00 02 01 00 D5 56
+15/01/2025 15:31:43 display_status DEBUG    changed command: 55 AA 00 16 FE 00 00 01 00 00 00 00 17 00 00 02 01 00 83 56 20
+15/01/2025 15:31:43 display_status DEBUG    changed command: 55 AA 00 5B FE 00 00 01 00 00 00 00 00 00 00 0A 01 00 B9 56
+15/01/2025 15:31:43 display_status DEBUG    changed command: 55 AA 00 5B FE 00 00 01 00 00 00 00 0F 00 00 02 02 00 C1 56
+15/01/2025 15:31:43 display_status DEBUG    changed command: 55 AA 00 15 FE 00 02 01 00 00 00 00 00 00 00 06 05 00 75 56
+15/01/2025 15:31:43 display_status DEBUG    changed command: 55 AA 00 14 FE 00 01 01 00 00 00 00 01 00 00 02 05 00 71 56
+15/01/2025 15:31:43 display_status DEBUG    changed command: 55 AA 00 15 FE 00 01 01 00 00 00 00 01 00 00 02 05 00 71 56
+15/01/2025 15:31:43 display_status DEBUG    changed command: 55 AA 00 80 FE 00 01 01 00 00 00 00 00 01 00 02 01 00 D9 56
+15/01/2025 15:31:43 display_status DEBUG    changed command: 55 AA 00 80 FE 00 01 01 00 00 00 00 02 01 00 02 01 00 DB 56
+15/01/2025 15:31:43 display_status DEBUG    changed command: 55 AA 00 32 FE 00 00 01 00 00 00 00 06 00 10 02 02 00 9F 56
+15/01/2025 15:31:43 display_status DEBUG    changed command: 55 AA 00 32 FE 00 00 01 00 00 00 00 08 00 10 02 02 00 A1 56
+15/01/2025 15:31:43 display_status DEBUG    changed command: 55 AA 00 15 FE 00 01 01 00 00 00 00 00 00 00 02 01 00 6C 56
+15/01/2025 15:31:43 display_status DEBUG    changed command: 55 AA 00 5B FE 00 00 01 00 00 00 00 01 00 00 0A 2F 00 E8 56
+15/01/2025 15:31:43 display_status DEBUG    changed command: 55 AA 00 F2 FE 00 01 01 00 00 01 00 74 00 00 01 01 00 04 C1 57
+15/01/2025 15:31:43 display_status DEBUG    changed command: 55 AA 00 03 FE 00 01 01 00 00 00 00 10 30 00 03 10 00 AA 56
+15/01/2025 15:31:43 display_status DEBUG    changed command: 55 AA 00 32 FE 00 01 01 00 00 00 00 42 00 00 0A 10 00 E2 56
+15/01/2025 15:31:43 display_status DEBUG    changed command: 55 AA 00 15 FE 00 00 01 00 00 00 00 00 00 00 08 7F 00 EF 56
+15/01/2025 15:31:43 display_status DEBUG    changed command: 55 AA 00 15 FE 00 00 01 00 00 00 00 00 1E 00 02 01 00 89 56
+15/01/2025 15:31:43 display_status DEBUG    changed command: 55 AA 00 32 FE 00 02 01 00 00 00 00 02 00 00 00 02 00 8B 56
+15/01/2025 15:31:43 display_status DEBUG    changed command: 55 AA 00 15 FE 00 02 01 00 00 01 00 00 00 00 06 0B 00 00 00 00 00 55 AA 01 02 80 FF 81 7E 59
+15/01/2025 15:31:43 display_status DEBUG    changed command: 55 AA 00 C4 FE 00 01 01 00 00 00 00 0A 00 00 0A 18 00 7E 59
+15/01/2025 15:31:43 display_status DEBUG    changed command: 55 AA 00 C4 FE 00 01 01 00 00 00 00 0A 00 00 0A 60 00 8D 57
+15/01/2025 15:31:43 display_status INFO     =============================================================================================================================================
+15/01/2025 15:31:43 display_status INFO     Connecting to receiver number: 1
+15/01/2025 15:31:43 display_status DEBUG    Sending command: 55 AA 00 15 FE 00 01 01 01 00 00 00 00 00 00 00 02 00 6D 56
+15/01/2025 15:31:44 display_status DEBUG    Received data: AA 55 00 15 00 FE 01 01 01 00 00 00 00 00 00 00 02 00 21 46 D4 56
+15/01/2025 15:31:44 display_status INFO     Getting receiver card model
+15/01/2025 15:31:44 display_status DEBUG    Sending command: 55 AA 00 15 FE 00 01 01 01 00 00 00 00 00 00 00 02 00 6D 56
+15/01/2025 15:31:44 display_status DEBUG    Received data: AA 55 00 15 00 FE 01 01 01 00 00 00 00 00 00 00 02 00 21 46 D4 56
+15/01/2025 15:31:44 display_status INFO     Receiver card model: Nova A5s Plus
+15/01/2025 15:31:44 display_status INFO     Getting receiver card firmware
+15/01/2025 15:31:44 display_status DEBUG    Sending command: 55 AA 00 32 FE 00 01 01 01 00 00 00 04 00 00 08 04 00 98 56
+15/01/2025 15:31:45 display_status DEBUG    Received data: AA 55 00 32 00 FE 01 01 01 00 00 00 04 00 00 08 04 00 04 07 02 90 35 57
+15/01/2025 15:31:45 display_status INFO     Receiver Card FPGA Firmware version: 4.7.2.90
+15/01/2025 15:31:45 display_status INFO     Getting cabinet kill mode (on/off)
+15/01/2025 15:31:45 display_status DEBUG    Sending command: 55 AA 00 80 FE 00 01 01 01 00 00 00 00 01 00 02 01 00 DA 56
+15/01/2025 15:31:45 display_status DEBUG    Received data: AA 55 00 80 00 FE 01 01 01 00 00 00 00 01 00 02 01 00 00 DA 56
+15/01/2025 15:31:45 display_status INFO     Cabinet Operating Status (Kill mode): ON
+15/01/2025 15:31:45 display_status INFO     Getting current receiver card brightness...[TO CHECK]
+15/01/2025 15:31:45 display_status DEBUG    Sending command: 55 AA 00 14 FE 00 01 01 01 00 00 00 01 00 00 02 05 00 72 56
+15/01/2025 15:31:46 display_status DEBUG    Received data: AA 55 00 14 00 FE 01 01 01 00 00 00 01 00 00 02 05 00 CC CC CC CC CC 6E 5A
+15/01/2025 15:31:46 display_status INFO     Brightness Level: 204
+15/01/2025 15:31:46 display_status INFO     Global Brightness: 80%
+15/01/2025 15:31:46 display_status INFO     RED: 204
+15/01/2025 15:31:46 display_status INFO     GREEN: 204
+15/01/2025 15:31:46 display_status INFO     BLUE: 204
+15/01/2025 15:31:46 display_status INFO     vRED: 204
+15/01/2025 15:31:46 display_status INFO     Getting receiver card monitoring, temperature and voltage
+15/01/2025 15:31:46 display_status DEBUG    Sending command: 55 AA 00 32 FE 00 01 01 01 00 00 00 00 00 00 0A 00 01 93 56
+15/01/2025 15:31:47 display_status DEBUG    Received data: AA 55 00 32 00 FE 01 01 01 00 00 00 00 00 00 0A 00 01 80 3E 00 AB 2D 00 00 00 00 10 FF 80 1E AD 04 92 67 02 00 00 00 00 00 00 00 00 00 00 00 00 00 00 80 01 80 01 80 01 80 01 FF 80 1A AD 2C 12 65 02 00 00 00 00 00 00 00 00 00 00 00 00 00 00 80 01 80 01 80 01 80 01 FF 80 20 AD 48 AC 63 02 00 00 00 00 00 00 00 00 00 00 00 00 00 00 80 01 80 01 80 01 80 01 FF 80 1C AC 8C 31 51 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 80 01 80 01 80 01 80 01 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 77 6D
+15/01/2025 15:31:47 display_status INFO     Temperature (valid): 31.0 C (0x3e)
+15/01/2025 15:31:47 display_status INFO     Voltage (valid): 4.3V (0xab)
+15/01/2025 15:31:47 display_status INFO     Monitoring card unavailable (0x80)
+15/01/2025 15:31:47 display_status INFO     Getting cabinet lock mode (normal/locked)
+15/01/2025 15:31:47 display_status DEBUG    Sending command: 55 AA 00 80 FE 00 01 01 01 00 00 00 02 01 00 02 01 00 DC 56
+15/01/2025 15:31:47 display_status DEBUG    Received data: AA 55 00 80 00 FE 01 01 01 00 00 00 02 01 00 02 01 00 00 DC 56
+15/01/2025 15:31:47 display_status INFO     Cabinet Lock Mode: NORMAL
+15/01/2025 15:31:47 display_status INFO     Getting current receiver card status...[TO CHECK]
+0 96
+15/01/2025 15:31:47 display_status DEBUG    Sending command: 55 AA 00 C4 FE 00 01 01 01 00 00 00 0A 00 00 0A 60 00 8E 57
+15/01/2025 15:31:48 display_status DEBUG    Received data size: 116
+15/01/2025 15:31:48 display_status DEBUG    Received data: AA 55 00 C4 00 FE 01 01 01 00 00 00 0A 00 00 0A 60 00 FF 80 26 AD F0 2B 69 02 00 00 00 00 00 00 00 00 00 00 00 00 00 00 80 01 80 01 80 01 80 01 FF 80 24 AD FC A9 66 02 00 00 00 00 00 00 00 00 00 00 00 00 00 00 80 01 80 01 80 01 80 01 FF 80 28 AD 54 44 65 02 00 00 00 00 00 00 00 00 00 00 00 00 00 00 80 01 80 01 80 01 80 01 FF 80 26 AC 4C CA 89 6C
+15/01/2025 15:31:48 display_status DEBUG    Modules Data:
+15/01/2025 15:31:48 display_status DEBUG    module_1_data: [255, 128, 38, 173, 240, 43, 105, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], Number: 1
+15/01/2025 15:31:48 display_status DEBUG    module_2_data: [255, 128, 36, 173, 252, 169, 102, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], Number: 2
+15/01/2025 15:31:48 display_status DEBUG    module_3_data: [255, 128, 40, 173, 84, 68, 101, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], Number: 3
+15/01/2025 15:31:48 display_status DEBUG    module_4_data: [255, 128, 38, 172, 76, 202, 137, 108], Number: 4
+15/01/2025 15:31:48 display_status DEBUG    Module 1 is functioning
+15/01/2025 15:31:48 display_status DEBUG    Module 2 is functioning
+15/01/2025 15:31:48 display_status DEBUG    Module 3 is functioning
+15/01/2025 15:31:48 display_status DEBUG    Module 4 is functioning
+15/01/2025 15:31:48 display_status ERROR    Fault detected in module 1 Line: RFU
+15/01/2025 15:31:48 display_status ERROR    Fault detected in module 1 Line: R
+15/01/2025 15:31:48 display_status ERROR    Fault detected in module 2 Line: RFU
+15/01/2025 15:31:48 display_status ERROR    Fault detected in module 2 Line: R
+15/01/2025 15:31:48 display_status ERROR    Fault detected in module 3 Line: RFU
+15/01/2025 15:31:48 display_status ERROR    Fault detected in module 3 Line: R
+15/01/2025 15:31:48 display_status ERROR    Fault detected in module 4 Line: RFU
+15/01/2025 15:31:48 display_status ERROR    Fault detected in module 4 Line: R
+15/01/2025 15:31:48 display_status INFO     All modules are functioning correctly.
+15/01/2025 15:31:48 display_status DEBUG    *********** Port: 0 Set ***********
+15/01/2025 15:31:48 display_status DEBUG    changed command: 55 AA 00 AA FE 00 00 00 00 00 00 00 02 00 00 00 02 00 01 57
+15/01/2025 15:31:48 display_status DEBUG    changed command: 55 AA 00 32 FE 00 00 00 00 00 00 00 02 00 00 00 02 00 89 56
+15/01/2025 15:31:48 display_status DEBUG    changed command: 55 AA 00 15 FE 00 00 00 00 00 00 00 04 00 10 04 04 00 84 56
+15/01/2025 15:31:48 display_status DEBUG    changed command: 55 AA 00 32 FE 00 01 00 01 00 00 00 04 00 00 08 04 00 98 56
+15/01/2025 15:31:48 display_status DEBUG    changed command: 55 AA 00 15 FE 00 01 00 01 00 00 00 00 00 00 00 02 00 6D 56
+15/01/2025 15:31:48 display_status DEBUG    changed command: 55 AA 00 32 FE 00 01 00 01 00 00 00 00 00 00 0A 00 01 93 56
+15/01/2025 15:31:48 display_status DEBUG    changed command: 55 AA 00 32 FE 00 00 00 00 00 00 00 22 00 00 02 01 00 AA 56
+15/01/2025 15:31:48 display_status DEBUG    changed command: 55 AA 00 32 FE 00 00 00 00 00 00 00 23 00 00 02 01 00 AB 56
+15/01/2025 15:31:48 display_status DEBUG    changed command: 55 AA 00 32 FE 00 00 00 00 00 00 00 4D 00 00 02 01 00 D5 56
+15/01/2025 15:31:48 display_status DEBUG    changed command: 55 AA 00 16 FE 00 00 00 00 00 00 00 17 00 00 02 01 00 83 56 20
+15/01/2025 15:31:48 display_status DEBUG    changed command: 55 AA 00 5B FE 00 00 00 00 00 00 00 00 00 00 0A 01 00 B9 56
+15/01/2025 15:31:48 display_status DEBUG    changed command: 55 AA 00 5B FE 00 00 00 00 00 00 00 0F 00 00 02 02 00 C1 56
+15/01/2025 15:31:48 display_status DEBUG    changed command: 55 AA 00 15 FE 00 02 00 00 00 00 00 00 00 00 06 05 00 75 56
+15/01/2025 15:31:48 display_status DEBUG    changed command: 55 AA 00 14 FE 00 01 00 01 00 00 00 01 00 00 02 05 00 72 56
+15/01/2025 15:31:48 display_status DEBUG    changed command: 55 AA 00 15 FE 00 01 00 00 00 00 00 01 00 00 02 05 00 71 56
+15/01/2025 15:31:48 display_status DEBUG    changed command: 55 AA 00 80 FE 00 01 00 01 00 00 00 00 01 00 02 01 00 DA 56
+15/01/2025 15:31:48 display_status DEBUG    changed command: 55 AA 00 80 FE 00 01 00 01 00 00 00 02 01 00 02 01 00 DC 56
+15/01/2025 15:31:48 display_status DEBUG    changed command: 55 AA 00 32 FE 00 00 00 00 00 00 00 06 00 10 02 02 00 9F 56
+15/01/2025 15:31:48 display_status DEBUG    changed command: 55 AA 00 32 FE 00 00 00 00 00 00 00 08 00 10 02 02 00 A1 56
+15/01/2025 15:31:48 display_status DEBUG    changed command: 55 AA 00 15 FE 00 01 00 00 00 00 00 00 00 00 02 01 00 6C 56
+15/01/2025 15:31:48 display_status DEBUG    changed command: 55 AA 00 5B FE 00 00 00 00 00 00 00 01 00 00 0A 2F 00 E8 56
+15/01/2025 15:31:48 display_status DEBUG    changed command: 55 AA 00 F2 FE 00 01 00 00 00 01 00 74 00 00 01 01 00 04 C1 57
+15/01/2025 15:31:48 display_status DEBUG    changed command: 55 AA 00 03 FE 00 01 00 00 00 00 00 10 30 00 03 10 00 AA 56
+15/01/2025 15:31:48 display_status DEBUG    changed command: 55 AA 00 32 FE 00 01 00 00 00 00 00 42 00 00 0A 10 00 E2 56
+15/01/2025 15:31:48 display_status DEBUG    changed command: 55 AA 00 15 FE 00 00 00 00 00 00 00 00 00 00 08 7F 00 EF 56
+15/01/2025 15:31:48 display_status DEBUG    changed command: 55 AA 00 15 FE 00 00 00 00 00 00 00 00 1E 00 02 01 00 89 56
+15/01/2025 15:31:48 display_status DEBUG    changed command: 55 AA 00 32 FE 00 02 00 00 00 00 00 02 00 00 00 02 00 8B 56
+15/01/2025 15:31:48 display_status DEBUG    changed command: 55 AA 00 15 FE 00 02 00 00 00 01 00 00 00 00 06 0B 00 00 00 00 00 55 AA 01 02 80 FF 81 7E 59
+15/01/2025 15:31:48 display_status DEBUG    changed command: 55 AA 00 C4 FE 00 01 00 00 00 00 00 0A 00 00 0A 18 00 7E 59
+15/01/2025 15:31:48 display_status DEBUG    changed command: 55 AA 00 C4 FE 00 01 00 01 00 00 00 0A 00 00 0A 60 00 8E 57
+15/01/2025 15:31:48 display_status INFO     =============================================================================================================================================
+15/01/2025 15:31:48 display_status INFO     Connecting to receiver number: 0
+15/01/2025 15:31:48 display_status DEBUG    Sending command: 55 AA 00 15 FE 00 01 00 02 00 00 00 00 00 00 00 02 00 6D 56
+15/01/2025 15:31:48 display_status DEBUG    Received data: AA 55 01 15 00 FE 01 00 02 00 00 00 00 00 00 00 02 00 FF 80 ED 57
+15/01/2025 15:31:48 display_status ERROR    Command failed due to time out (time out on trying to access devices connected to a sending card)
+15/01/2025 15:31:48 display_status INFO     Receiver card not connected.
+15/01/2025 15:31:48 display_status DEBUG    *********** Port: 1 Set ***********
+15/01/2025 15:31:48 display_status DEBUG    changed command: 55 AA 00 AA FE 00 00 01 00 00 00 00 02 00 00 00 02 00 01 57
+15/01/2025 15:31:48 display_status DEBUG    changed command: 55 AA 00 32 FE 00 00 01 00 00 00 00 02 00 00 00 02 00 89 56
+15/01/2025 15:31:48 display_status DEBUG    changed command: 55 AA 00 15 FE 00 00 01 00 00 00 00 04 00 10 04 04 00 84 56
+15/01/2025 15:31:48 display_status DEBUG    changed command: 55 AA 00 32 FE 00 01 01 01 00 00 00 04 00 00 08 04 00 98 56
+15/01/2025 15:31:48 display_status DEBUG    changed command: 55 AA 00 15 FE 00 01 01 02 00 00 00 00 00 00 00 02 00 6D 56
+15/01/2025 15:31:48 display_status DEBUG    changed command: 55 AA 00 32 FE 00 01 01 01 00 00 00 00 00 00 0A 00 01 93 56
+15/01/2025 15:31:48 display_status DEBUG    changed command: 55 AA 00 32 FE 00 00 01 00 00 00 00 22 00 00 02 01 00 AA 56
+15/01/2025 15:31:48 display_status DEBUG    changed command: 55 AA 00 32 FE 00 00 01 00 00 00 00 23 00 00 02 01 00 AB 56
+15/01/2025 15:31:48 display_status DEBUG    changed command: 55 AA 00 32 FE 00 00 01 00 00 00 00 4D 00 00 02 01 00 D5 56
+15/01/2025 15:31:48 display_status DEBUG    changed command: 55 AA 00 16 FE 00 00 01 00 00 00 00 17 00 00 02 01 00 83 56 20
+15/01/2025 15:31:48 display_status DEBUG    changed command: 55 AA 00 5B FE 00 00 01 00 00 00 00 00 00 00 0A 01 00 B9 56
+15/01/2025 15:31:48 display_status DEBUG    changed command: 55 AA 00 5B FE 00 00 01 00 00 00 00 0F 00 00 02 02 00 C1 56
+15/01/2025 15:31:48 display_status DEBUG    changed command: 55 AA 00 15 FE 00 02 01 00 00 00 00 00 00 00 06 05 00 75 56
+15/01/2025 15:31:48 display_status DEBUG    changed command: 55 AA 00 14 FE 00 01 01 01 00 00 00 01 00 00 02 05 00 72 56
+15/01/2025 15:31:48 display_status DEBUG    changed command: 55 AA 00 15 FE 00 01 01 00 00 00 00 01 00 00 02 05 00 71 56
+15/01/2025 15:31:48 display_status DEBUG    changed command: 55 AA 00 80 FE 00 01 01 01 00 00 00 00 01 00 02 01 00 DA 56
+15/01/2025 15:31:48 display_status DEBUG    changed command: 55 AA 00 80 FE 00 01 01 01 00 00 00 02 01 00 02 01 00 DC 56
+15/01/2025 15:31:48 display_status DEBUG    changed command: 55 AA 00 32 FE 00 00 01 00 00 00 00 06 00 10 02 02 00 9F 56
+15/01/2025 15:31:48 display_status DEBUG    changed command: 55 AA 00 32 FE 00 00 01 00 00 00 00 08 00 10 02 02 00 A1 56
+15/01/2025 15:31:48 display_status DEBUG    changed command: 55 AA 00 15 FE 00 01 01 00 00 00 00 00 00 00 02 01 00 6C 56
+15/01/2025 15:31:48 display_status DEBUG    changed command: 55 AA 00 5B FE 00 00 01 00 00 00 00 01 00 00 0A 2F 00 E8 56
+15/01/2025 15:31:48 display_status DEBUG    changed command: 55 AA 00 F2 FE 00 01 01 00 00 01 00 74 00 00 01 01 00 04 C1 57
+15/01/2025 15:31:48 display_status DEBUG    changed command: 55 AA 00 03 FE 00 01 01 00 00 00 00 10 30 00 03 10 00 AA 56
+15/01/2025 15:31:48 display_status DEBUG    changed command: 55 AA 00 32 FE 00 01 01 00 00 00 00 42 00 00 0A 10 00 E2 56
+15/01/2025 15:31:48 display_status DEBUG    changed command: 55 AA 00 15 FE 00 00 01 00 00 00 00 00 00 00 08 7F 00 EF 56
+15/01/2025 15:31:48 display_status DEBUG    changed command: 55 AA 00 15 FE 00 00 01 00 00 00 00 00 1E 00 02 01 00 89 56
+15/01/2025 15:31:48 display_status DEBUG    changed command: 55 AA 00 32 FE 00 02 01 00 00 00 00 02 00 00 00 02 00 8B 56
+15/01/2025 15:31:48 display_status DEBUG    changed command: 55 AA 00 15 FE 00 02 01 00 00 01 00 00 00 00 06 0B 00 00 00 00 00 55 AA 01 02 80 FF 81 7E 59
+15/01/2025 15:31:48 display_status DEBUG    changed command: 55 AA 00 C4 FE 00 01 01 00 00 00 00 0A 00 00 0A 18 00 7E 59
+15/01/2025 15:31:48 display_status DEBUG    changed command: 55 AA 00 C4 FE 00 01 01 01 00 00 00 0A 00 00 0A 60 00 8E 57
+15/01/2025 15:31:48 display_status INFO     =============================================================================================================================================
+15/01/2025 15:31:48 display_status INFO     Connecting to receiver number: 1
+15/01/2025 15:31:48 display_status DEBUG    Sending command: 55 AA 00 15 FE 00 01 01 02 00 00 00 00 00 00 00 02 00 6E 56
+15/01/2025 15:31:49 display_status DEBUG    Received data: AA 55 01 15 00 FE 01 01 02 00 00 00 00 00 00 00 02 00 FF 80 EE 57
+15/01/2025 15:31:49 display_status ERROR    Command failed due to time out (time out on trying to access devices connected to a sending card)
+15/01/2025 15:31:49 display_status INFO     Receiver card not connected.
+15/01/2025 15:31:54 display_status INFO     Writing to JSON file
+15/01/2025 15:31:54 display_status INFO     Written to status.json
+Traceback (most recent call last):
+  File "/home/alvinrpi/5eyes/v106/display_status.py", line 1665, in <module>
+    sys.exit(main())#exit(main())
+             ^^^^^^
+  File "/home/alvinrpi/5eyes/v106/display_status.py", line 279, in main
+    my_logger.info ("EXIT CODE: {}, {}".format(EXIT_CODE, message))
+                                               ^^^^^^^^^
+UnboundLocalError: cannot access local variable 'message' where it is not associated with a value
+alvinrpi@raspberrypi:~/5eyes/v106 $ 

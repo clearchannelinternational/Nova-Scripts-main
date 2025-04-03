@@ -1,0 +1,78 @@
+{
+    "/dev/ttyUSB0": {
+        "lastUpdated": "05/11/2024 13:10",
+        "connectedControllers": 0,
+        "targetPort": "/dev/ttyUSB0",
+        "controllerDescription": "CP2102N USB to UART Bridge Controller",
+        "controllerHardware": "USB VID:PID=10C4:EA60 SER=96e6c34f8c9fec11bb7e073643a0c072 LOCATION=1-1.2",
+        "controllerModel": "MSD300/MCTRL300",
+        "controllerFirmware": "4.7.8.0",
+        "brightnessLevelPC": 100,
+        "brightnessLevel": 255,
+        "functionCardModel": "N/A",
+        "ambientLightLevel": "N/A",
+        "ALSMode": "Unkown (0x00)",
+        "ALSQuantity": 6,
+        "maxLux": 257,
+        "minLux": 258,
+        "maxBright": 0,
+        "maxBrightPC": 0,
+        "minBright": 3,
+        "minBrightPC": 1,
+        "numSteps": 1,
+        "ALSPosition": 0,
+        "PortPosition": 0,
+        "functionCardPosition (LOW)": "0x0",
+        "functionCardPosition (HIGH)": "0x1",
+        "functionCardAddress": 0,
+        "DVISignal": "Valid",
+        "receiverCard": {
+            "0": {
+                "receiverModel": "Nova A5s Plus",
+                "receiverFPGA": "4.7.2.90",
+                "kill": "On",
+                "brightnessLevelPC": 100,
+                "brightnessLevel": 255,
+                "redLevel": 255,
+                "greenLevel": 255,
+                "blueLevel": 255,
+                "vRedLevel": 255,
+                "tempValid": "Yes",
+                "temperature": 33.0,
+                "voltageValid": "Yes",
+                "voltage": 4.3,
+                "monitorCard": "No",
+                "locked": "Normal",
+                "module": {
+                    "0": "OK",
+                    "1": "OK",
+                    "2": "OK",
+                    "3": "OK"
+                }
+            },
+            "1": {
+                "receiverModel": "Nova A5s Plus",
+                "receiverFPGA": "4.7.2.90",
+                "kill": "On",
+                "brightnessLevelPC": 100,
+                "brightnessLevel": 255,
+                "redLevel": 255,
+                "greenLevel": 255,
+                "blueLevel": 255,
+                "vRedLevel": 255,
+                "tempValid": "Yes",
+                "temperature": 30.0,
+                "voltageValid": "Yes",
+                "voltage": 4.3,
+                "monitorCard": "No",
+                "locked": "Normal",
+                "module": {
+                    "0": "OK",
+                    "1": "OK",
+                    "2": "OK",
+                    "3": "Error or no module available"
+                }
+            }
+        }
+    }
+}

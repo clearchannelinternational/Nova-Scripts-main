@@ -1,0 +1,19 @@
+26/03/2025 09:25:53 display_status INFO     *********************************************************************************************************************************************
+26/03/2025 09:25:53 display_status INFO     5Eyes - Starting Display Status Checks
+26/03/2025 09:25:53 display_status INFO     Loading config.json
+26/03/2025 09:25:53 display_status INFO     *********************************************************************************************************************************************
+26/03/2025 09:25:53 display_status INFO     5Eyes - Starting Display Status Checks
+26/03/2025 09:25:53 display_status INFO     Loading config.json
+26/03/2025 09:25:53 display_status INFO     5Eyes - Starting Display Status Checks
+26/03/2025 09:25:53 display_status INFO     Loading config.json
+26/03/2025 09:25:55 display_status DEBUG    Loaded valid location data from cache: {'city': 'London', 'region': 'England', 'timezone': 'Europe/London', 'latitude': '51.5085', 'longitude': '-0.1257'}
+26/03/2025 09:25:55 display_status DEBUG    Location details:
+26/03/2025 09:25:55 display_status INFO     Sun times: {'dawn': '2025-03-26T05:15:15.364338+00:00', 'sunrise': '2025-03-26T05:49:24.082473+00:00', 'noon': '2025-03-26T12:06:12+00:00', 'sunset': '2025-03-26T18:23:45.542947+00:00', 'dusk': '2025-03-26T18:58:01.801572+00:00'}
+26/03/2025 09:25:55 display_status DEBUG    Data successfully written to: C:\Users\ukcco2aku\Clear Channel International\Product Development - Displays and Digital - Displays and Digital\Universal Remote Monitoring\Python Scripts\To be Tested\108\daylight_times.json
+26/03/2025 09:25:55 display_status INFO     File saved in folder: C:\Users\ukcco2aku\Clear Channel International\Product Development - Displays and Digital - Displays and Digital\Universal Remote Monitoring\Python Scripts\To be Tested\108
+26/03/2025 09:25:55 display_status INFO     Task 'Retrieve Daylight Information' does not exist. Creating it now.
+26/03/2025 09:25:55 display_status INFO     Task 'Retrieve Daylight Information' updated/created successfully to run at: 2025-03-26T00:00:01.
+26/03/2025 09:25:55 display_status INFO     Task 'Brightness OFF' updated/created successfully to run at: 2025-03-26T01:00:00.
+26/03/2025 09:25:55 display_status INFO     Task 'Brightness ON' updated/created successfully to run at: 2025-03-26T05:00:00.
+26/03/2025 09:25:55 display_status INFO     Task 'Sunset Auto Brightness' updated/created successfully to run at: 2025-03-26T18:23:45.542947+00:00.
+26/03/2025 09:25:56 display_status INFO     Task 'Dawn Auto Brightness' updated/created successfully to run at: 2025-03-26T05:15:15.364338+00:00.

@@ -22,7 +22,7 @@ LOGGER_SCHEDULE = 'midnight'
 LOGGER_BACKUPS = 7
 LOGGER_INTERVAL = 1
 LOGGER_NAME = "default_log_name"
-LOG_FILE = "debug_default.log"
+LOG_FILE = "debug.log"
 
 MODEL_6XX = "MSD600/MCTRL600/MCTRL610/MCTRL660"
 
@@ -35,8 +35,7 @@ UNKNOWN = 3
 async def communicate_with_server(callback, check_name):
    global data
    global logger
-   logger = methods.get_logger("ASYNCIO","ASYNCIO",FORMATTER,LOGGER_SCHEDULE,LOGGER_INTERVAL,LOGGER_BACKUPS) # Set up the logging
-   """Asynchronous client communication with the server."""
+   logger = methods.get_logger(check_name,LOG_FILE,FORMATTER,LOGGER_SCHEDULE,LOGGER_INTERVAL,LOGGER_BACKUPS) # Set up the logging  
    logger.info("ESTABLISHING CONNECTION WITH LOCAL SERVER QUEUE")
    reader, writer = await asyncio.open_connection("127.0.0.1",8888)
    if not reader and not writer:
@@ -47,9 +46,26 @@ async def communicate_with_server(callback, check_name):
    data = await reader.read(1024)
    if not data.decode().strip() == "START":
       logger.error("")
+      #TODO: icinga output should become monitoring output for vector and icinga example of output only 0 and 1 to raise alarms and only if alarm is triggered team should be able to access the log file for more log details
+      '''
+         door_open_alarm_side_a=1
+         screen_alarm_side_a=1
+         backlight_alarm_side_a=0
+         high_temperature_alarm=0
+         low_temperature_alarm=0
+         heat_exchanger_alarm=0
+         minor_shock_alarm=0
+         intermediate_shock_alarm=0
+         heavy_shock_alarms=0
+         critical_shock_alarm=0
+         fan_fault_alarm=0
+         communication_error_alarm=0
+         device_fault_alarm=0
+      '''
       await icinga_output("Could not make connection with localserver to access com port", UNKNOWN,reader, writer)
    logger.info(f"PERMISSION TO USE COM PORT GRANTED STARTING {check_name} SCRIPT")
-   await callback(reader, writer)
+   await callback(reader, writer) #callback is the method passed to run after permission is granted
+   
 def initialize_program():
    global sleep_time
    global flash_wait_time

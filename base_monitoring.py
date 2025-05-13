@@ -21,9 +21,9 @@ STATUS_FILE = "status.json"
 LOGGER_SCHEDULE = 'midnight'
 LOGGER_BACKUPS = 7
 LOGGER_INTERVAL = 1
-LOGGER_NAME = "default_log_name"
+LOGGER_NAME = "display_status"
 LOG_FILE = "debug.log"
-
+ 
 MODEL_6XX = "MSD600/MCTRL600/MCTRL610/MCTRL660"
 
 # EXIT CODES
@@ -45,24 +45,9 @@ async def communicate_with_server(callback, check_name):
    logger.info("AWAITING PERMISSION TO USE COM PORTS FROM LOCAL SERVER")
    data = await reader.read(1024)
    if not data.decode().strip() == "START":
-      logger.error("")
-      #TODO: icinga output should become monitoring output for vector and icinga example of output only 0 and 1 to raise alarms and only if alarm is triggered team should be able to access the log file for more log details
-      '''
-         door_open_alarm_side_a=1
-         screen_alarm_side_a=1
-         backlight_alarm_side_a=0
-         high_temperature_alarm=0
-         low_temperature_alarm=0
-         heat_exchanger_alarm=0
-         minor_shock_alarm=0
-         intermediate_shock_alarm=0
-         heavy_shock_alarms=0
-         critical_shock_alarm=0
-         fan_fault_alarm=0
-         communication_error_alarm=0
-         device_fault_alarm=0
-      '''
-      await monitoring_log_output("Could not make connection with localserver to access com port", UNKNOWN,reader, writer)
+      logger.error("Could not make connection with localserver to access com port")
+      session_handler(writer,reader)
+      exit()
    logger.info(f"PERMISSION TO USE COM PORT GRANTED STARTING {check_name} SCRIPT")
    await callback(reader, writer) #callback is the method passed to run after permission is granted
    
@@ -96,41 +81,41 @@ def search_devices(ser, sleep_time, status): # Searches for all sender cards con
       logger.info("Searching sender card on port: " + port)
       ser.port = port
       try: 
-            ser.open()
+         ser.open()
       except Exception as e:
-            logger.error(str(e))
+         logger.error(str(e))
       if ser.isOpen():
-            logger.info("{} opened".format(port)) # remove at production
-            try:
-               ser.flushInput() # flush input buffer, discarding all its contents
-               ser.flushOutput() # flush output buffer, aborting current output and discard all that is in buffer
-               ser.write (connection) # send CONNECTION command to check whether any devices are connected
-               logger.debug("Sending command: " + ' '.join('{:02X}'.format(a) for a in connection))
-               time.sleep (sleep_time) # allow some time for the device to respond        
-               if ser.inWaiting()>0: # there should be something at the serial input
-                  response = ser.read(size=ser.inWaiting()) # read all the data available
-                  rx_data = list(response)
-                  logger.debug("Received data:"+' '.join('{:02X}'.format(a) for a in rx_data))
-                  if check_response(rx_data):                        
-                     if (rx_data[18]!=0 or rx_data [19]!=0): # if ACKNOWLEDGE data is not equal to zero then a device is connected
-                           # **********************************************************
-                           status[port] = {} 
-                           #status[port]["lastUpdated"] = last_updated
-                           status[port]["connectedControllers"] = device_found
-                           status[port]["targetPort"] = port
-                           status[port]["controllerDescription"] = desc
-                           status[port]["controllerHardware"] = hwid
-                           # **********************************************************
-                           device_found =  device_found + 1
-                           connected_port = port
-                           valid_ports.append(port)
-                           logger.info("Device found on port: {} | {} | {}".format(port, desc, hwid))                       
-                     else:
-                           logger.info("Device not connected")
-            except Exception as e1:
-               logger.error("Error communicating with device: " + str(e1))
-            ser.close()
-            logger.info("{} closed".format(port)) # remove at production?
+         logger.info("{} opened".format(port)) # remove at production
+         try:
+            ser.flushInput() # flush input buffer, discarding all its contents
+            ser.flushOutput() # flush output buffer, aborting current output and discard all that is in buffer
+            ser.write (connection) # send CONNECTION command to check whether any devices are connected
+            logger.debug("Sending command: " + ' '.join('{:02X}'.format(a) for a in connection))
+            time.sleep (sleep_time) # allow some time for the device to respond        
+            if ser.inWaiting()>0: # there should be something at the serial input
+               response = ser.read(size=ser.inWaiting()) # read all the data available
+               rx_data = list(response)
+               logger.debug("Received data:"+' '.join('{:02X}'.format(a) for a in rx_data))
+               if check_response(rx_data):                        
+                  if (rx_data[18]!=0 or rx_data [19]!=0): # if ACKNOWLEDGE data is not equal to zero then a device is connected
+                        # **********************************************************
+                        status[port] = {} 
+                        #status[port]["lastUpdated"] = last_updated
+                        status[port]["connectedControllers"] = device_found
+                        status[port]["targetPort"] = port
+                        status[port]["controllerDescription"] = desc
+                        status[port]["controllerHardware"] = hwid
+                        # **********************************************************
+                        device_found =  device_found + 1
+                        connected_port = port
+                        valid_ports.append(port)
+                        logger.info("Device found on port: {} | {} | {}".format(port, desc, hwid))                       
+                  else:
+                        logger.info("Device not connected")
+         except Exception as e1:
+            logger.error("Error communicating with device: " + str(e1))
+         ser.close()
+         logger.info("{} closed".format(port)) # remove at production?
    logger.info("Found {} device(s)".format(device_found))
    return device_found, valid_ports
 def check_response(received_data):
@@ -160,14 +145,16 @@ async def monitoring_log_output(message, exit_status, reader, writer):
    if 1 in exit_status or 2 in exit_status or 3 in exit_status:
       alarm = 1       
    try:
-      writer.write(b"Done")
-      await writer.drain()
-      await reader.read(1024)
-      writer.close()
-      await writer.wait_closed() 
+      session_handler(writer,reader)
       logger.info("check completed successfully")
       with open("monitor_log.log", "w") as log:
          log.write(f"{message}={alarm}")
    except Exception as e:
       logger.error(f"Error sending completion message: {e}")
    exit()
+async def session_handler(writer, reader):
+   writer.write(b"Done")
+   await writer.drain()
+   await reader.read(1024)
+   writer.close()
+   await writer.wait_closed() 

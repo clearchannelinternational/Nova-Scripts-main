@@ -22,8 +22,7 @@ LOGGER_SCHEDULE = 'midnight'
 LOGGER_BACKUPS = 7
 LOGGER_INTERVAL = 1
 LOGGER_NAME = "display_status"
-LOG_FILE = "debug.log"
- 
+LOG_FILE = "debug.log" 
 MODEL_6XX = "MSD600/MCTRL600/MCTRL610/MCTRL660"
 
 # EXIT CODES
@@ -49,9 +48,8 @@ async def communicate_with_server(callback, check_name):
       session_handler(writer,reader)
       exit()
    logger.info(f"PERMISSION TO USE COM PORT GRANTED STARTING {check_name} SCRIPT")
-   await callback(reader, writer) #callback is the method passed to run after permission is granted
-   
-def initialize_program():
+   await callback(reader, writer) #callback is the method passed to run after permission is granted   
+async def initialize_program(reader, writer):
    global sleep_time
    global flash_wait_time
    global status 
@@ -71,6 +69,17 @@ def initialize_program():
    data = read_data(STATUS_FILE,LOGGER_NAME)
    status = {} # Initialise variable to store status data\
    modules_ok = True # assume all modules are ok to start off
+   number_of_modules = config["modules"]
+   ser = methods.setupSerialPort(config["baudrate"],LOGGER_NAME) # Initialise serial port
+   device_found, valid_ports = search_devices(ser)
+   start_time = time.time()
+      #Validate device found on player
+   if not valid_ports:
+      message = "NO DEVICE - make sure a valid controller is connected, that the correct baudrate is defined in config.json and ensure the NOVA LCT is not running on the host system \nThis can also mean that you don't run the tool as administrator"
+      exit_code = CRITICAL
+      logger.info ("EXIT CODE: {}, {}".format(exit_code, message))
+      end_time = time.time()
+      await monitoring_log_output(message, exit_code, reader, writer)
 def search_devices(ser, sleep_time, status): # Searches for all sender cards connected to each USB port (/dev/ttyUSBX) on the system
    logger = logging.getLogger(LOGGER_NAME)
    ports = serial.tools.list_ports.comports()
@@ -141,9 +150,13 @@ async def monitoring_log_output(message, exit_status, reader, writer):
    global data
    global logger
    #output to log monitor_log_file.log
-   alarm = 0
-   if 1 in exit_status or 2 in exit_status or 3 in exit_status:
-      alarm = 1       
+   alarm = GOOD
+   if WARNING in exit_status:
+      alarm = WARNING
+   elif CRITICAL in exit_status:
+      alarm = CRITICAL
+   else:
+      alarm = UNKNOWN    
    try:
       session_handler(writer,reader)
       logger.info("check completed successfully")

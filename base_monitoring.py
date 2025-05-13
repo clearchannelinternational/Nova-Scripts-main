@@ -138,21 +138,17 @@ def check_response(received_data):
    try:
       if (received_data[2]==0):   
          return True
+      elif (received_data[2]==1):
+         logger.error('Command failed due to time out (time out on trying to access devices connected to a sending card)')
+      elif (received_data[2]==2):
+         logger.error('Command failed due to check error on request data package')
+      elif (received_data[2]==3):
+         logger.error('Command failed due to check error on acknowledge data package')
+      elif (received_data[2]==4):
+         logger.error('Command failed due to invalid command')
       else:
-         if (received_data[2]==1):
-            logger.error('Command failed due to time out (time out on trying to access devices connected to a sending card)')
-         else:
-            if (received_data[2]==2):
-               logger.error('Command failed due to check error on request data package')
-            else:
-                  if (received_data[2]==3):
-                     logger.error('Command failed due to check error on acknowledge data package')
-                  else:
-                        if (received_data[2]==4):
-                           logger.error('Command failed due to invalid command')
-                        else:
-                           logger.error('Command failed due to unkown error')
-         return False
+         logger.error('Command failed due to unkown error')
+      return False
    except Exception as e:
       logger.error('Command failed due to error: {}'.format(e))
       return False

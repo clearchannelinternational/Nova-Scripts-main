@@ -62,7 +62,7 @@ async def communicate_with_server(callback, check_name):
          communication_error_alarm=0
          device_fault_alarm=0
       '''
-      await icinga_output("Could not make connection with localserver to access com port", UNKNOWN,reader, writer)
+      await monitoring_log_output("Could not make connection with localserver to access com port", UNKNOWN,reader, writer)
    logger.info(f"PERMISSION TO USE COM PORT GRANTED STARTING {check_name} SCRIPT")
    await callback(reader, writer) #callback is the method passed to run after permission is granted
    
@@ -152,25 +152,22 @@ def check_response(received_data):
    except Exception as e:
       logger.error('Command failed due to error: {}'.format(e))
       return False
-async def icinga_output(message, exit_status, reader, writer):
+async def monitoring_log_output(message, exit_status, reader, writer):
    global data
    global logger
-   """Outputs the result to Icinga and notifies the server."""
-   exit_code = 0
-   if 2 in exit_status:
-      exit_code = 2
-   elif 1 in exit_status:
-      exit_code = 1
-   elif 3 in exit_status:
-      exit_code = 3 
-        
+   #output to log monitor_log_file.log
+   alarm = 0
+   if 1 in exit_status or 2 in exit_status or 3 in exit_status:
+      alarm = 1       
    try:
       writer.write(b"Done")
       await writer.drain()
       await reader.read(1024)
       writer.close()
-      await writer.wait_closed()
-      logger.info("Sent 'done' to server.")
+      await writer.wait_closed() 
+      logger.info("check completed successfully")
+      with open("monitor_log.log", "w") as log:
+         log.write(f"{message}={alarm}")
    except Exception as e:
       logger.error(f"Error sending completion message: {e}")
-   sys.exit(exit_code)
+   exit()

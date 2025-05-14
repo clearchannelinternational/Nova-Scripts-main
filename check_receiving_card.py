@@ -4,103 +4,87 @@ async def main(reader, writer):
    global sleep_time
    global flash_wait_time
    global status 
-   global ser
    global last_updated
    global data
-   global no_of_receiver_cards
-   global receiver_card_found
    global logger
-   module_status_info = {}
+   global config
+   global device_found, valid_ports, ser
    exit_code = UNKNOWN
-   
-   my_logger = methods.get_logger(LOGGER_NAME,LOG_FILE,FORMATTER,LOGGER_SCHEDULE,LOGGER_INTERVAL,LOGGER_BACKUPS) # Set up the logging
-   my_logger.info("*********************************************************************************************************************************************")
-   my_logger.info("5Eyes - Starting Display Status Checks")
-   config = loadConfig(LOGGER_NAME) # Load the configuration information
-   my_logger.info("Version: {}, Baudrate: {}, Sleep Time: {}, Flash Timeout: {}".format(config["version"],config["baudrate"],config["sleepTime"],config["flashWaitTime"]))
-   last_updated = datetime.datetime.now().strftime("%d/%m/%Y %H:%M")
-   sleep_time = float(config["sleepTime"])
-   flash_wait_time = float(config["flashWaitTime"])
-   total_receiver_cards = float(config["receiver_cards"])
-   data = read_data(STATUS_FILE,LOGGER_NAME)
-   status = {} # Initialise variable to store status data\
-   modules_ok = True # assume all modules are ok to start off
-   ser = methods.setupSerialPort(config["baudrate"],LOGGER_NAME) # Initialise serial port
-   device_found, valid_ports = search_devices()
-   start_time = time.time()
-   #Validate device found on player
+   initialize_program(reader, writer)
+   total_receiver_cards = config_panel["receiving_cards"]
+   total_lan_ports = config_panel["lan_ports"]   #Validate device found on player
    if (device_found == 0):
       message = "NO DEVICE - make sure a valid controller is connected, that the correct baudrate is defined in config.json and ensure the NOVA LCT is not running on the host system \nThis can also mean that you don't run the tool as administrator"
       exit_code = CRITICAL
-      my_logger.info ("EXIT CODE: {}, {}".format(exit_code, message))
+      logger.info ("EXIT CODE: {}, {}".format(exit_code, message))
       end_time = time.time()
       await monitoring_log_output(message, exit_code, reader, writer)
    
    #looping through each sender card found
    i=0
    for serial_port in sorted(valid_ports):
-      my_logger.info("*******************    DEVICE {}   *******************".format(i))
-      my_logger.info("Connecting to device on {}".format(serial_port))
+      logger.info("*******************    DEVICE {}   *******************".format(i))
+      logger.info("Connecting to device on {}".format(serial_port))
       ser.port = serial_port      
       try: 
          if ser.isOpen() == False:
             ser.open()
          ser.flushInput() #flush input buffer, discarding all its contents
          ser.flushOutput() #flush output buffer, aborting current output and discard all that is in buffer
-         my_logger.info("Opened device on port: " + ser.name) # remove at production
+         logger.info("Opened device on port: " + ser.name) # remove at production
       except SerialException as e:
          message = f"Error opening serial port: {ser.name} - {str(e)}"
          exit_code = CRITICAL
-         my_logger.error(message)
+         logger.error(message)
          await monitoring_log_output(message, exit_code, reader, writer)
          
       # -------------------------------------
       # RETRIEVE PARAMETERS FROM SENDER CARDS
       # -------------------------------------
       receiver_card_found = True
-      no_of_receiver_cards = 0
+      total_receiver_cards_found = 0
       status[serial_port]["receiverCard"]={}
       display_on = True
-      
-      while receiver_card_found != False: 
-         my_logger.info("=============================================================================================================================================")
-         my_logger.info ("Connecting to receiver number: {}".format(no_of_receiver_cards+1))    
-         try:     
-            if not get_receiver_connected(ser.port):
-               break
-            no_of_receiver_cards += 1
-            
-         except Exception as e:
-            message = e
-            exit_code = UNKNOWN
-            await monitoring_log_output(message, exit_code, reader, writer)
-      if no_of_receiver_cards != total_receiver_cards: message, exit_code = f"NO of receiver cards {no_of_receiver_cards} EXPECTED {total_receiver_cards}", CRITICAL
-      else: message, exit_code = f"NO of receiver cards {no_of_receiver_cards} EXPECTED {total_receiver_cards}", GOOD
-      ser.close() #closing 
-      my_logger.info("Writing to JSON file")
-      
-      # -------------------------------------------------------------
-      # TO DO
-      # Include checks for brightness >0. This should be a WARNING.
-      # -------------------------------------------------------------
+      for lan_value in range(total_lan_ports):
+         no_of_receiver_cards = 0
+         while receiver_card_found != False: 
+            logger.info("=============================================================================================================================================")
+            logger.info ("Connecting to receiver number: {}".format(no_of_receiver_cards+1))    
+            try:     
+               if not get_receiver_connected(ser.port, no_of_receiver_cards,lan_value):
+                  break
+               no_of_receiver_cards += 1
+               total_receiver_cards_found += 1
+            except Exception as e:
+               message = e
+               exit_code = UNKNOWN
+               await monitoring_log_output(message, exit_code, reader, writer)
+   if total_receiver_cards_found != total_receiver_cards: message, exit_code = f"NO of receiver cards {no_of_receiver_cards} EXPECTED {total_receiver_cards}", CRITICAL
+   else: message, exit_code = f"NO of receiver cards {total_receiver_cards_found} EXPECTED {total_receiver_cards}", GOOD
+   ser.close() #closing 
+   logger.info("Writing to JSON file")
    
-      my_logger.info ("EXIT CODE: {}, {}".format(exit_code, message))
-      
-      # ----------------------------------------------------------------
-      # TO DO
-      # Consider including exit_code and output message into status.json     
-      # ----------------------------------------------------------------
-      
-      await monitoring_log_output(message, exit_code, reader, writer)    
+   # -------------------------------------------------------------
+   # TO DO
+   # Include checks for brightness >0. This should be a WARNING.
+   # -------------------------------------------------------------
 
-def get_receiver_connected(port):
+   logger.info ("EXIT CODE: {}, {}".format(exit_code, message))
+   
+   # ----------------------------------------------------------------
+   # TO DO
+   # Consider including exit_code and output message into status.json     
+   # ----------------------------------------------------------------
+   
+   await monitoring_log_output(message, exit_code, reader, writer)    
+
+def get_receiver_connected(port, receiver_index_value, lan_value):
 # ---------------------------------------------------------------------------------------
 # CHECK CONNECTION TO RECEIVER CARD
 # ---------------------------------------------------------------------------------------   
    logger = logging.getLogger(LOGGER_NAME)
-   global receiver_card_found
-   global no_of_receiver_cards
-   check_receiver_model [8] = no_of_receiver_cards
+   check_receiver_model [7] = lan_value
+   check_receiver_model [8] = receiver_index_value
    check_receiver_model_send = methods.checksum (check_receiver_model)
    ser.write (check_receiver_model_send)
    time.sleep (sleep_time)

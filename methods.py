@@ -125,15 +125,23 @@ def checksum (arg1):# Function definition for checksum calculation
     return arg1
 
 def setupSerialPort(baud, logger_name):
-    logger = logging.getLogger(logger_name)
-    logger.info("Setting up serial port")
-    port = serial.Serial()
-    port.baudrate = baud #Baudrate 115200f or MCTRL300 only; other devices use different baudrate
-    port.bytesize =  serial.EIGHTBITS
-    port.parity = serial.PARITY_NONE
-    port.stopbits = serial.STOPBITS_ONE 
-    port.timeout = 0
-    return port
+
+   for b in baud:
+      try:
+         logger = logging.getLogger(logger_name)
+         logger.info(f"Setting up serial port with baudrate {b}")
+         port = serial.Serial()
+         port.baudrate = b #Baudrate 115200f or MCTRL300 only; other devices use different baudrate
+         port.bytesize =  serial.EIGHTBITS
+         port.parity = serial.PARITY_NONE
+         port.stopbits = serial.STOPBITS_ONE 
+         port.timeout = 0
+         port.open()
+         port.close()
+      except TimeoutError:
+         logger.info(f"connecting on device with baudrate: {b} failed")
+   
+   return port
 
 def checkConnectedDevice(port, device, sleep_time):
     port.port = device

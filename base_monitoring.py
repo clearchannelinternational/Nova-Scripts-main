@@ -12,8 +12,10 @@ from command import *
 
 if platform == "linux":
    dir = "/data/opt/LEDMonitoring"
+   hostname = os.getenv('HOSTNAME', 'defaultValue')
 else:
    dir = r"C:\LEDMonitoring"
+   hostname = os.getenv('COMPUTERNAME', 'defaultValue')
 os.chdir(dir)
 
 # LOGGER
@@ -58,12 +60,14 @@ async def initialize_program(reader, writer):
    global data
    global logger
    global config
+   global device_found, valid_ports, ser
+   global config_panel
    module_status_info = {}
-   my_logger = methods.get_logger(LOGGER_NAME,LOG_FILE,FORMATTER,LOGGER_SCHEDULE,LOGGER_INTERVAL,LOGGER_BACKUPS) # Set up the logging
-   my_logger.info("*********************************************************************************************************************************************")
-   my_logger.info("5Eyes - Starting Display Status Checks")
+   logger = methods.get_logger(LOGGER_NAME,LOG_FILE,FORMATTER,LOGGER_SCHEDULE,LOGGER_INTERVAL,LOGGER_BACKUPS) # Set up the logging
+   logger.info("*********************************************************************************************************************************************")
+   logger.info("5Eyes - Starting Display Status Checks")
    config = loadConfig(LOGGER_NAME) # Load the configuration information
-   my_logger.info("Version: {}, Baudrate: {}, Sleep Time: {}, Flash Timeout: {}".format(config["version"],config["baudrate"],config["sleepTime"],config["flashWaitTime"]))
+   logger.info("Version: {}, Baudrate: {}, Sleep Time: {}, Flash Timeout: {}".format(config["version"],config["baudrate"],config["sleepTime"],config["flashWaitTime"]))
    last_updated = datetime.datetime.now().strftime("%d/%m/%Y %H:%M")
    sleep_time = float(config["sleepTime"])
    flash_wait_time = float(config["flashWaitTime"])
@@ -71,6 +75,12 @@ async def initialize_program(reader, writer):
    status = {} # Initialise variable to store status data\
    modules_ok = True # assume all modules are ok to start off
    number_of_modules = config["modules"]
+   
+   if hostname in config.keys():
+      config_panel = config[hostname]
+   else:
+      config_panel = config['default']
+   
    ser = methods.setupSerialPort(config["baudrate"],LOGGER_NAME) # Initialise serial port
    device_found, valid_ports = search_devices(ser)
    start_time = time.time()

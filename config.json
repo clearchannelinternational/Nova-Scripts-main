@@ -1,10 +1,8 @@
 {
-    "version": "1.0.7",
-    "baudrate": 115200,
+    "version": "1.0.8",
+    "baudrate": [115200,1048576],
     "sleepTime": "0.5",
-    "flashWaitTime": "15",
-    "devices": 1,
-    "receiver_cards": 2,
+    "flashWaitTime": "15",    
     "modules": 4,
     "ALSMode": "Enabled",
     "ALSQuantity": 1,
@@ -24,5 +22,15 @@
         "timezone": "Europe/London",
         "latitude": "51.5085",
         "longitude": "-0.1257"
+    },
+    "default": {    
+        "devices": 1,
+        "receiver_cards": 2,
+        "lan_ports": [1]    
+    },
+    "UK-RO-STM-C005": {
+        "devices": 1,
+        "receiver_cards": 244,
+        "lan_ports": [4]
     }
 }

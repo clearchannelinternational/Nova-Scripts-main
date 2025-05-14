@@ -157,7 +157,7 @@ def check_response(received_data):
    except Exception as e:
       logger.error('Command failed due to error: {}'.format(e))
       return False
-async def monitoring_log_output(message, exit_status, reader, writer):
+async def monitoring_log_output(message,monitoring_message, exit_status, reader, writer):
    global data
    global logger
    #output to log monitor_log_file.log
@@ -172,7 +172,7 @@ async def monitoring_log_output(message, exit_status, reader, writer):
       session_handler(writer,reader)
       logger.info("check completed successfully")
       with open("monitor_log.log", "w") as log:
-         log.write(f"{message}={alarm}")
+         log.write(f"{monitoring_message}={alarm}")
    except Exception as e:
       logger.error(f"Error sending completion message: {e}")
    exit()

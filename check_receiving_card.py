@@ -9,6 +9,7 @@ async def main(reader, writer):
    global logger
    global config
    global device_found, valid_ports, ser
+   monitor_message = "receiving_cards"
    exit_code = UNKNOWN
    initialize_program(reader, writer)
    total_receiver_cards = config_panel["receiving_cards"]
@@ -18,7 +19,8 @@ async def main(reader, writer):
       exit_code = CRITICAL
       logger.info ("EXIT CODE: {}, {}".format(exit_code, message))
       end_time = time.time()
-      await monitoring_log_output(message, exit_code, reader, writer)
+      
+      await monitoring_log_output(message,monitor_message, exit_code, reader, writer)
    
    #looping through each sender card found
    i=0
@@ -36,7 +38,7 @@ async def main(reader, writer):
          message = f"Error opening serial port: {ser.name} - {str(e)}"
          exit_code = CRITICAL
          logger.error(message)
-         await monitoring_log_output(message, exit_code, reader, writer)
+         await monitoring_log_output(message,monitor_message, exit_code, reader, writer)
          
       # -------------------------------------
       # RETRIEVE PARAMETERS FROM SENDER CARDS
@@ -47,18 +49,21 @@ async def main(reader, writer):
       display_on = True
       for lan_value in range(total_lan_ports):
          no_of_receiver_cards = 0
+         if not ser.is_open:
+            time.sleep(0.05)
+            ser.open()
          while receiver_card_found != False: 
             logger.info("=============================================================================================================================================")
             logger.info ("Connecting to receiver number: {}".format(no_of_receiver_cards+1))    
             try:     
-               if not get_receiver_connected(ser.port, no_of_receiver_cards,lan_value):
+               if not get_receiver_connected(ser.port, no_of_receiver_cards,lan_value):                  
+                  ser.close()
                   break
                no_of_receiver_cards += 1
                total_receiver_cards_found += 1
             except Exception as e:
-               message = e
-               exit_code = UNKNOWN
-               await monitoring_log_output(message, exit_code, reader, writer)
+               print(f"no receiving card found {no_of_receiver_cards}")
+           
    if total_receiver_cards_found != total_receiver_cards: message, exit_code = f"NO of receiver cards {no_of_receiver_cards} EXPECTED {total_receiver_cards}", CRITICAL
    else: message, exit_code = f"NO of receiver cards {total_receiver_cards_found} EXPECTED {total_receiver_cards}", GOOD
    ser.close() #closing 
@@ -76,7 +81,7 @@ async def main(reader, writer):
    # Consider including exit_code and output message into status.json     
    # ----------------------------------------------------------------
    
-   await monitoring_log_output(message, exit_code, reader, writer)    
+   await monitoring_log_output(message, monitor_message, exit_code, reader, writer)    
 
 def get_receiver_connected(port, receiver_index_value, lan_value):
 # ---------------------------------------------------------------------------------------
@@ -101,7 +106,6 @@ def get_receiver_connected(port, receiver_index_value, lan_value):
       logger.warning("No data available at the input buffer")
       receiver_card_found = False
    return receiver_card_found
-
 # ------------------------------------------------------------------------------------------------------------
 # PROGRAM ENTRY POINT - this won't be run only when imported from external module
 # ------------------------------------------------------------------------------------------------------------

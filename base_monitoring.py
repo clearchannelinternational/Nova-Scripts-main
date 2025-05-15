@@ -64,7 +64,7 @@ class base:
       self.logger.info(f"PERMISSION TO USE COM PORT GRANTED STARTING {check_name} SCRIPT")
       await callback(reader, writer) #callback is the method passed to run after permission is granted   
    async def initialize_program(self, reader, writer):
-      module_status_info = {}
+      
       self.logger = methods.get_logger(self.LOGGER_NAME,self.LOG_FILE,self.FORMATTER,self.LOGGER_SCHEDULE,self.LOGGER_INTERVAL,self.LOGGER_BACKUPS) # Set up the logging
       self.logger.info("*********************************************************************************************************************************************")
       self.logger.info("5Eyes - Starting Display Status Checks")

@@ -52,7 +52,7 @@ class base:
       self.logger.info("ESTABLISHING CONNECTION WITH LOCAL SERVER QUEUE")
       reader, writer = await asyncio.open_connection("127.0.0.1",8888)
       if not reader and not writer:
-         logger.error("COULD NOT ESTABLISH CONNECTION WITH 127.0.0.1 ON PORT 8888")
+         self.logger.error("COULD NOT ESTABLISH CONNECTION WITH 127.0.0.1 ON PORT 8888")
       writer.write(f"{check_name}".encode())
       await writer.drain()
       self.logger.info("AWAITING PERMISSION TO USE COM PORTS FROM LOCAL SERVER")

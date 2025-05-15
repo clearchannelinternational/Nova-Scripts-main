@@ -26,11 +26,11 @@
     "default": {    
         "devices": 1,
         "receiver_cards": 2,
-        "lan_ports": [1]    
+        "lan_ports": 1   
     },
     "UK-RO-STM-C005": {
         "devices": 1,
         "receiver_cards": 244,
-        "lan_ports": [4]
+        "lan_ports": 4
     }
 }

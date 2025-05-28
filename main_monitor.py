@@ -8,8 +8,8 @@ from check_dvi import check_dvi
 from base_monitoring import base
 import time
 base_script = base()
-async def main(reader, writer):
-    await base_script.initialize_program(reader, writer)
+async def main():
+    await base_script.initialize_program()
     i=0
     expected_modules = base_script.config['modules']
     total_receiver_cards = base_script.config_panel["receiver_cards"]
@@ -51,4 +51,4 @@ async def main(reader, writer):
         finally:
             base_script.ser.close()  # Closing 
             base_script.logger.info("Writing to JSON file")
-            
+main()        

@@ -207,23 +207,26 @@ class base:
       await reader.read(1024)
       writer.close()
       await writer.wait_closed()
-
-      """
-      Checks connection to a receiver card.
-      Returns True if connected, False otherwise.
-      """
-      self.logger = logging.getLogger(self._logger_name)
-      check_receiver_model[7] = lan_value
-      check_receiver_model[8] = receiver_index_value
-      check_receiver_model_send = methods.checksum(check_receiver_model)
-      self.ser.write(check_receiver_model_send)
-      time.sleep(1)
+   def get_receiver_connected(self, port, receiver_index_value, lan_value):
+   # ---------------------------------------------------------------------------------------
+   # CHECK CONNECTION TO RECEIVER CARD
+   # ---------------------------------------------------------------------------------------   
+      logger = logging.getLogger(self._logger_name)
+      check_receiver_model [7] = lan_value
+      check_receiver_model [8] = receiver_index_value
+      check_receiver_model_send = methods.checksum (check_receiver_model)
+      self.ser.write (check_receiver_model_send)
+      time.sleep (1) 
       inWaiting = self.ser.inWaiting()
-      if inWaiting > 0:
+      if inWaiting>0:
          response = self.ser.read(size=inWaiting)
          rx_data = list(response)
-         self.logger.debug("Received data: " + ' '.join('{:02X}'.format(a) for a in rx_data))
-         return self.check_response(rx_data)
+         self.logger.debug("Received data: "+' '.join('{:02X}'.format(a) for a in rx_data))
+         if self.check_response(rx_data):
+            receiver_card_found = True
+         else:
+            receiver_card_found = False          
       else:
          self.logger.warning("No data available at the input buffer")
-         return False
+         receiver_card_found = False
+      return receiver_card_found

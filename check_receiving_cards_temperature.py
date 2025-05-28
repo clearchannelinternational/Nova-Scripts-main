@@ -6,9 +6,7 @@ async def main(reader, writer):
    await base_script.initialize_program(reader, writer)
    exit_code = base_script.UNKNOWN
    monitor_message = "receiving_card_temperature"
-   total_receiver_cards = base_script.config_panel["receiver_cards"]
-   total_lan_ports = base_script.config_panel["lan_ports"]   #Validate device found on player
-   total_receiver_cards_found = 0
+
    if (base_script.device_found == 0):
       message = "NO DEVICE - make sure a valid controller is connected, that the correct baudrate is defined in config.json and ensure the NOVA LCT is not running on the host system \nThis can also mean that you don't run the tool as administrator"
       exit_code = base_script.CRITICAL
@@ -93,29 +91,7 @@ async def main(reader, writer):
    base_script.logger.info ("EXIT CODE: {}, {}".format(exit_code, message))
    await base_script.monitoring_log_output(message,monitor_message, exit_code, reader, writer)    
           
-def get_receiver_connected(receiver_index_value, lan_value):
-# ---------------------------------------------------------------------------------------
-# CHECK CONNECTION TO RECEIVER CARD
-# ---------------------------------------------------------------------------------------   
-   base_script.logger = logging.getLogger(base_script.LOGGER_NAME)
-   check_receiver_model [7] = lan_value
-   check_receiver_model [8] = receiver_index_value
-   check_receiver_model_send = methods.checksum (check_receiver_model)
-   base_script.ser.write (check_receiver_model_send)
-   time.sleep (1) 
-   inWaiting = base_script.ser.inWaiting()
-   if inWaiting>0:
-      response = base_script.ser.read(size=inWaiting)
-      rx_data = list(response)
-      base_script.logger.debug("Received data: "+' '.join('{:02X}'.format(a) for a in rx_data))
-      if base_script.check_response(rx_data):
-         receiver_card_found = True
-      else:
-         receiver_card_found = False          
-   else:
-      base_script.logger.warning("No data available at the input buffer")
-      receiver_card_found = False
-   return receiver_card_found
+
 #Get receiving card gets one parameter (receiving_card) that represent the physical receiving card found per sender card
 def get_receiver_temp_voltage(receiver_index_value, lan_value):
 # ---------------------------------------------------------------------------------------

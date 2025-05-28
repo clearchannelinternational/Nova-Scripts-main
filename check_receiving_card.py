@@ -81,26 +81,3 @@ async def main(reader, writer):
    
    await base_script.monitoring_log_output(message,monitor_message, exit_code, reader, writer)    
 
-def get_receiver_connected(port, receiver_index_value, lan_value):
-# ---------------------------------------------------------------------------------------
-# CHECK CONNECTION TO RECEIVER CARD
-# ---------------------------------------------------------------------------------------   
-   base_script.logger = logging.getLogger(base_script._logger_name)
-   check_receiver_model [7] = lan_value
-   check_receiver_model [8] = receiver_index_value
-   check_receiver_model_send = methods.checksum (check_receiver_model)
-   base_script.ser.write (check_receiver_model_send)
-   time.sleep (1) 
-   inWaiting = base_script.ser.inWaiting()
-   if inWaiting>0:
-      response = base_script.ser.read(size=inWaiting)
-      rx_data = list(response)
-      base_script.logger.debug("Received data: "+' '.join('{:02X}'.format(a) for a in rx_data))
-      if base_script.check_response(rx_data):
-         receiver_card_found = True
-      else:
-         receiver_card_found = False          
-   else:
-      base_script.logger.warning("No data available at the input buffer")
-      receiver_card_found = False
-   return receiver_card_found

@@ -33,7 +33,8 @@ class base:
    os.chdir(dir)
 
    # LOGGER
-   FORMATTER = logging.Formatter('%(asctime)s [%(levelname)-8s] %(message)s', datefmt='%Y/%m/%d %H:%M:%S')
+   # FORMATTER = logging.Formatter('%(asctime)s [%(levelname)-8s] %(message)s', datefmt='%Y/%m/%d %H:%M:%S')
+   FORMATTER = logging.Formatter('%(asctime)s [%(levelname)s] %(message)s', datefmt='%Y/%m/%d %H:%M:%S')
    STATUS_FILE = "status.json"
    LOGGER_SCHEDULE = 'midnight'
    LOGGER_BACKUPS = 7

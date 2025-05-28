@@ -89,7 +89,7 @@ class base:
                      receiver_index += 1
 
             self.ser.close()
-   async def initialize_program(self, reader, writer):      
+   async def initialize_program(self):      
       self.logger = methods.get_logger(self._logger_name,self.LOG_FILE,self.FORMATTER,self.LOGGER_SCHEDULE,self.LOGGER_INTERVAL,self.LOGGER_BACKUPS) # Set up the logging
       self.logger.info("*********************************************************************************************************************************************")
       self.logger.info(f"Starting check {self._logger_name}")
@@ -118,7 +118,6 @@ class base:
          message = "NO DEVICE - make sure a valid controller is connected, that the correct baudrate is defined in config.json and ensure the NOVA LCT is not running on the host system \nThis can also mean that you don't run the tool as administrator"
          exit_code = self.CRITICAL
          self.logger.info ("EXIT CODE: {}, {}".format(exit_code, message))
-         await self.monitoring_log_output(message, exit_code, reader, writer)
    def search_devices(self): # Searches for all sender cards connected to each USB port (/dev/ttyUSBX) on the system
       self.logger = logging.getLogger(self._logger_name)
       ports = serial.tools.list_ports.comports()

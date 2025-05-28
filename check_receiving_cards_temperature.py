@@ -81,8 +81,14 @@ async def main(reader, writer):
       if temperature_per_receiving_card[k]["status"] != 0:
          exit_code = base_script.WARNING
          message = "One or more receiving card's temperature are out of control"
-         break      
 
+         break      
+   if exit_code != base_script.GOOD:
+      base_script.logger.error(f"{monitor_message}=1")
+      base_script.logger.error(f"receiving_cards_temperature_output={message}")
+   else:
+      base_script.logger.info(f"{monitor_message}=0")
+      base_script.logger.info(f"receiving_cards_temperature_output={message}")
    base_script.ser.close() #closing 
    base_script.logger.info ("EXIT CODE: {}, {}".format(exit_code, message))
    await base_script.monitoring_log_output(message,monitor_message, exit_code, reader, writer)    

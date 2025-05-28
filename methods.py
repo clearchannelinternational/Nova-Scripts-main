@@ -8,12 +8,6 @@ import os
 
 status = {} # Initialise variable to store status data
 global last_updated
-
-
-
-def main():
-   print ("Hello")
-
 #############################################################################################
 #  Load configuration from a JSON file (config.json) and return its contents as a dictionary.
 #  If the file does not exist or is invalid, default configuration values are used instead.
@@ -61,17 +55,6 @@ def loadConfig(logger_name):
 
         return DEFAULT_CONFIG
    
-def loadConfig_old(text,target_port):
-   with open('config.json', 'r') as f:
-    data = json.load(f)
-    print ("*********************************************************")
-    print ("\t\t",text)
-    print("\t\tPORT:",target_port)
-    print ("\t\t   version: ",data["version"])
-    print ("")
-    print ("*********************************************************")
-    return data
-
 def read_data(filename,logger_name):
    logger = logging.getLogger(logger_name)
    try:
@@ -125,15 +108,15 @@ def checksum (arg1):# Function definition for checksum calculation
     return arg1
 
 def setupSerialPort(baud, logger_name):
-    logger = logging.getLogger(logger_name)
-    logger.info("Setting up serial port")
-    port = serial.Serial()
-    port.baudrate = baud #Baudrate 115200f or MCTRL300 only; other devices use different baudrate
-    port.bytesize =  serial.EIGHTBITS
-    port.parity = serial.PARITY_NONE
-    port.stopbits = serial.STOPBITS_ONE 
-    port.timeout = 0
-    return port
+   logger = logging.getLogger(logger_name)
+   logger.info(f"Setting up serial port with baudrate {baud}")
+   port = serial.Serial()
+   port.baudrate = baud #Baudrate 115200f or MCTRL300 only; other devices use different baudrate
+   port.bytesize =  serial.EIGHTBITS
+   port.parity = serial.PARITY_NONE
+   port.stopbits = serial.STOPBITS_ONE 
+   port.timeout = 0
+   return port
 
 def checkConnectedDevice(port, device, sleep_time):
     port.port = device
@@ -152,7 +135,6 @@ def checkConnectedDevice(port, device, sleep_time):
             time.sleep (sleep_time)  
 
             #IF SO, INTERPRET IT
-
             #OTHERWISE MOVE ON
         except Exception as e1:
             print ("Error communicating with device...",str(e1))
@@ -171,158 +153,12 @@ def get_console_handler(formatter):
    return console_handler
 
 def get_logger(logger_name,log_file, log_formatter, log_schedule, log_interval, log_backups):
-   logger = logging.getLogger(logger_name)
-   logger.setLevel(logging.DEBUG) # better to have too much log than not enough
-   logger.addHandler(get_file_handler(log_file, log_formatter, log_schedule, log_interval, log_backups))
-   logger.addHandler(get_console_handler(log_formatter))  
-   logger.propagate = False # with this pattern, it's rarely necessary to propagate the error up to parent
-   return logger
-
-def search_devices(logger_name,ser,sleep_time,connection): # Searches for all sender cards connected to each USB port (/dev/ttyUSBX) on the system
     logger = logging.getLogger(logger_name)
-    ports = serial.tools.list_ports.comports()
-    logger.info("Found {} serial ports".format(len(ports)))
-    device_found = 0
-    valid_ports = []
-    for port, desc, hwid in sorted(ports):
-         logger.info("Searching sender card on port: " + port)
-         ser.port = port
-         try: 
-               ser.open()
-         except Exception as e:
-               logger.error(str(e))
-         if ser.isOpen():
-               logger.info("{} opened".format(port)) # remove at production
-               try:
-                  ser.flushInput() # flush input buffer, discarding all its contents
-                  ser.flushOutput() # flush output buffer, aborting current output and discard all that is in buffer
-                  ser.write (connection) # send CONNECTION command to check whether any devices are connected
-                  logger.debug("Sending command: " + ' '.join('{:02X}'.format(a) for a in connection))
-                  time.sleep (sleep_time) # allow some time for the device to respond        
-                  if ser.inWaiting()>0: # there should be something at the serial input
-                     response = ser.read(size=ser.inWaiting()) # read all the data available
-                     rx_data = list(response)
-                     logger.debug("Received data:"+' '.join('{:02X}'.format(a) for a in rx_data))
-                     if check_response(logger_name,rx_data):                        
-                        if (rx_data[18]!=0 or rx_data [19]!=0): # if ACKNOWLEDGE data is not equal to zero then a device is connected
-                              # **********************************************************
-                              #status[port] = {} 
-                              #status[port]["lastUpdated"] = last_updated
-                              #status[port]["connectedControllers"] = device_found
-                              #status[port]["targetPort"] = port
-                              #status[port]["controllerDescription"] = desc
-                              #status[port]["controllerHardware"] = hwid
-                              #try:
-                              #   status[port]['operatingMode']=data[port]['operatingMode']
-                              #except:
-                              #   status[port]['operatingMode']="N/A"
-                              #try:
-                              #   status[port]['operatingautoState']=data[port]['operatingautoState']
-                              #except:
-                              #   status[port]['operatingautoState']="N/A"
-                              #try:
-                              #   status[port]['operatingState']=data[port]['operatingState']
-                              #except:
-                              #   status[port]['operatingState']="N/A"
-                              #print("DONE")
-                              # **********************************************************
-                              device_found =  device_found + 1
-                              connected_port = port
-                              valid_ports.append(port)
-                              logger.info("Device found on port: {} | {} | {}".format(port, desc, hwid))                       
-                        else:
-                              logger.info("Device not connected")
-               except Exception as e1:
-                  logger.error("Error communicating with device: " + str(e1))
-               ser.close()
-               logger.info("{} closed".format(port)) # remove at production
-    logger.info("Found {} device(s)".format(device_found))
-    return device_found, valid_ports
-
-def check_response(logger_name,received_data):
-   logger = logging.getLogger(logger_name)
-   try:
-      if (received_data[2]==0):   
-         return True
-      else:
-         if (received_data[2]==1):
-            logger.error('Command failed due to time out (time out on trying to access devices connected to a sending card)')
-         else:
-            if (received_data[2]==2):
-               logger.error('Command failed due to check error on request data package')
-            else:
-                  if (received_data[2]==3):
-                     logger.error('Command failed due to check error on acknowledge data package')
-                  else:
-                        if (received_data[2]==4):
-                           logger.error('Command failed due to invalid command')
-                        else:
-                           logger.error('Command failed due to unkown error')
-         return False
-   except Exception as e:
-      logger.error('Command failed due to error: {}'.format(e))
-      return False
-
-def search_devices2(): # Searches for all sender cards connected to each USB port (/dev/ttyUSBX) on the system
-    logger = logging.getLogger(LOGGER_NAME)
-    ports = serial.tools.list_ports.comports()
-    logger.info("Found {} serial ports".format(len(ports)))
-    device_found = 0
-    valid_ports = []
-    for port, desc, hwid in sorted(ports):
-         logger.info("Searching sender card on port: " + port)
-         ser.port = port
-         try: 
-               ser.open()
-         except Exception as e:
-               logger.error(str(e))
-         if ser.isOpen():
-               logger.info("{} opened".format(port)) # remove at production
-               try:
-                  ser.flushInput() # flush input buffer, discarding all its contents
-                  ser.flushOutput() # flush output buffer, aborting current output and discard all that is in buffer
-                  ser.write (connection) # send CONNECTION command to check whether any devices are connected
-                  logger.debug("Sending command: " + ' '.join('{:02X}'.format(a) for a in connection))
-                  time.sleep (sleep_time) # allow some time for the device to respond        
-                  if ser.inWaiting()>0: # there should be something at the serial input
-                     response = ser.read(size=ser.inWaiting()) # read all the data available
-                     rx_data = list(response)
-                     logger.debug("Received data:"+' '.join('{:02X}'.format(a) for a in rx_data))
-                     if check_response(rx_data):                        
-                        if (rx_data[18]!=0 or rx_data [19]!=0): # if ACKNOWLEDGE data is not equal to zero then a device is connected
-                              # **********************************************************
-                              status[port] = {} 
-                              status[port]["lastUpdated"] = last_updated
-                              status[port]["connectedControllers"] = device_found
-                              status[port]["targetPort"] = port
-                              status[port]["controllerDescription"] = desc
-                              status[port]["controllerHardware"] = hwid
-                              try:
-                                 status[port]['operatingMode']=data[port]['operatingMode']
-                              except:
-                                 status[port]['operatingMode']="N/A"
-                              try:
-                                 status[port]['operatingautoState']=data[port]['operatingautoState']
-                              except:
-                                 status[port]['operatingautoState']="N/A"
-                              try:
-                                 status[port]['operatingState']=data[port]['operatingState']
-                              except:
-                                 status[port]['operatingState']="N/A"
-                              #print("DONE")
-                              # **********************************************************
-                              device_found =  device_found + 1
-                              connected_port = port
-                              valid_ports.append(port)
-                              logger.info("Device found on port: {} | {} | {}".format(port, desc, hwid))                       
-                        else:
-                              logger.info("Device not connected")
-               except Exception as e1:
-                  logger.error("Error communicating with device: " + str(e1))
-               ser.close()
-               logger.info("{} closed".format(port)) # remove at production
-    logger.info("Found {} device(s)".format(device_found))
-    return device_found, valid_ports
-   
-if __name__ == "__main__":
-    main()
+    logger.setLevel(logging.DEBUG) # better to have too much log than not enough
+    if logger.hasHandlers():
+        logger.handlers.clear()
+    logger.addHandler(get_file_handler(log_file, log_formatter, log_schedule, log_interval, log_backups))
+    logger.addHandler(get_console_handler(log_formatter))  
+    logger.propagate = False # with this pattern, it's rarely necessary to propagate the error up to parent
+    return logger
+ 

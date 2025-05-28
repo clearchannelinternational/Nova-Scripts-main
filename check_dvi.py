@@ -80,7 +80,3 @@ def get_DVI_signal_status(port):
    base_script.status[port]["DVISignal"] = DVI_valid
    logger.info("DVI signal: "+ DVI_valid)
    return (DVI_valid)
-
-if __name__ == "__main__":   
-   asyncio.run(base_script.communicate_with_server(main, "DVI video cable"))
-

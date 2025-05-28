@@ -192,9 +192,3 @@ def get_receiver_temp_voltage(receiver_index_value, lan_value):
          voltage="N/A"
          monitoring_card="N/A"
    return temp_valid, temperature, voltage_valid, voltage, monitoring_card
-
-# ------------------------------------------------------------------------------------------------------------
-# PROGRAM ENTRY POINT - this won't be run only when imported from external module
-# ------------------------------------------------------------------------------------------------------------
-if __name__ == "__main__":
-   asyncio.run(base_script.communicate_with_server(main, "temperature per receiving cards"))

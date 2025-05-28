@@ -274,9 +274,3 @@ def get_receiver_card_firmware(port, receiver_index_value, lan_value):
    base_script.status[port]["receiverCard"][receiver_index_value]["receiverFPGA"]=FPGA
    logger.info('Receiver Card FPGA Firmware version: {}'.format(FPGA))
     
-#----------------------------------------------------------------
-if __name__ == "__main__":  
-   
-   asyncio.run(base_script.communicate_with_server(main))
-
-      

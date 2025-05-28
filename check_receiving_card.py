@@ -104,10 +104,3 @@ def get_receiver_connected(port, receiver_index_value, lan_value):
       base_script.logger.warning("No data available at the input buffer")
       receiver_card_found = False
    return receiver_card_found
-
-# ------------------------------------------------------------------------------------------------------------
-# PROGRAM ENTRY POINT - this won't be run only when imported from external module
-# ------------------------------------------------------------------------------------------------------------
-if __name__ == "__main__":
-   base_script._logger_name = "check receiving cards"
-   asyncio.run(base_script.communicate_with_server(main))

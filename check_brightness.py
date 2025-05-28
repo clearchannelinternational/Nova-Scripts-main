@@ -98,11 +98,3 @@ def get_display_brightness(port):
          base_script.status[port]["brightnessLevel"] = "N/A"
          exit_code = base_script.UNKNOWN
    return base_script.status[port]["brightnessLevelPC"], exit_code
-
-
-# ------------------------------------------------------------------------------------------------------------
-# PROGRAM ENTRY POINT - this won't be run only when imported from external module
-# ------------------------------------------------------------------------------------------------------------
-if __name__ == "__main__":   
-   base_script._logger_name = "check_brightness"
-   asyncio.run(base_script.communicate_with_server(main))

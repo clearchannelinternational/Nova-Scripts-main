@@ -62,8 +62,33 @@ class base:
          exit()
       self.logger.info(f"PERMISSION TO USE COM PORT GRANTED STARTING {self._logger_name} SCRIPT")
       await callback(reader, writer) #callback is the method passed to run after permission is granted   
-   async def initialize_program(self, reader, writer):
-      
+      async def iter_connected_receivers(self):
+         """
+         Yields (serial_port, lan_value, receiver_index) for each connected receiver card.
+         """
+         total_lan_ports = self.config_panel.get("lan_ports", 0)
+         total_receiver_cards = self.config_panel.get("receiver_cards", 0)
+         for serial_port in sorted(self.valid_ports):
+            self.ser.port = serial_port
+            try:
+                  if not self.ser.isOpen():
+                     self.ser.open()
+                  self.ser.flushInput()
+                  self.ser.flushOutput()
+            except Exception as e:
+                  self.logger.error(f"Error opening serial port: {serial_port} - {str(e)}")
+                  continue
+
+            for lan_value in range(total_lan_ports):
+                  receiver_index = 0
+                  while True:
+                     if not self.get_receiver_connected(serial_port, receiver_index, lan_value):
+                        break
+                     yield serial_port, lan_value, receiver_index
+                     receiver_index += 1
+
+            self.ser.close()
+   async def initialize_program(self, reader, writer):      
       self.logger = methods.get_logger(self._logger_name,self.LOG_FILE,self.FORMATTER,self.LOGGER_SCHEDULE,self.LOGGER_INTERVAL,self.LOGGER_BACKUPS) # Set up the logging
       self.logger.info("*********************************************************************************************************************************************")
       self.logger.info(f"Starting check {self._logger_name}")
@@ -182,3 +207,23 @@ class base:
       await reader.read(1024)
       writer.close()
       await writer.wait_closed()
+
+      """
+      Checks connection to a receiver card.
+      Returns True if connected, False otherwise.
+      """
+      self.logger = logging.getLogger(self._logger_name)
+      check_receiver_model[7] = lan_value
+      check_receiver_model[8] = receiver_index_value
+      check_receiver_model_send = methods.checksum(check_receiver_model)
+      self.ser.write(check_receiver_model_send)
+      time.sleep(1)
+      inWaiting = self.ser.inWaiting()
+      if inWaiting > 0:
+         response = self.ser.read(size=inWaiting)
+         rx_data = list(response)
+         self.logger.debug("Received data: " + ' '.join('{:02X}'.format(a) for a in rx_data))
+         return self.check_response(rx_data)
+      else:
+         self.logger.warning("No data available at the input buffer")
+         return False

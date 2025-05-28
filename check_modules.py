@@ -87,10 +87,14 @@ async def main(reader, writer):
             msg += f"ERROR IN ONE OR MORE MODULES - {expected_modules} EXPECTED, {detected_modules} FOUND, RECEIVER_NR {receiver} \n"         
       message = msg      
       exit_code = base_script.CRITICAL # Should this be CRITICAL? #MODULE_ERROR
+      base_script.logger.error(f"{monitor_message}=1")
+      base_script.logger.error(f"modules_output={message}")
    #TODO ADD BLOCK FAULT AS WARNING
    else:
       message = f"ALL MODULES OK"
       exit_code = base_script.GOOD
+      base_script.logger.info(f"{monitor_message}=0")
+      base_script.logger.info(f"modules_output={message}")
 
    await base_script.monitoring_log_output(message,monitor_message, exit_code, reader, writer)
 
@@ -272,6 +276,7 @@ def get_receiver_card_firmware(port, receiver_index_value, lan_value):
     
 #----------------------------------------------------------------
 if __name__ == "__main__":  
-   asyncio.run(base_script.communicate_with_server(main, "check receiving card modules"))
+   
+   asyncio.run(base_script.communicate_with_server(main))
 
       

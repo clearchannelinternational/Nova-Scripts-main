@@ -65,9 +65,14 @@ async def main(reader, writer):
    if(not display_on):
       message = "ONE OR MORE CABINETS OFF"
       exit_code = base_script.CRITICAL
+      base_script.logger.error(f"{monitor_message}=1")
+      base_script.logger.error(f"cabinet_message={message}")
    else:
       message = "All CABINETS OK"
       exit_code = base_script.GOOD
+      base_script.logger.info(f"{monitor_message}=0")
+      base_script.logger.info(f"cabinet_message={message}")
+
    base_script.ser.close() #closing 
    base_script.logger.info("Writing to JSON file")
    # -------------------------------------------------------------
@@ -231,5 +236,5 @@ def get_receiver_card_firmware(port, receiver_index_value, lan_value):
 # ------------------------------------------------------------------------------------------------------------
 if __name__ == "__main__":
     
-   asyncio.run(communicate_with_server())
+   asyncio.run(base_script.communicate_with_server(main, "check_cabinet"))
 

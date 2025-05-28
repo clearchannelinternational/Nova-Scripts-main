@@ -2,96 +2,43 @@
 import asyncio
 from base_monitoring import *
 base_script = base()
-async def main(reader, writer):
-   await base_script.initialize_program(reader, writer)
-   exit_code = base_script.UNKNOWN
+async def check_receiving_cards_temperature(port, no_of_receiver_cards, lan_value):
    monitor_message = "receiving_card_temperature"
-
-   if (base_script.device_found == 0):
-      message = "NO DEVICE - make sure a valid controller is connected, that the correct baudrate is defined in config.json and ensure the NOVA LCT is not running on the host system \nThis can also mean that you don't run the tool as administrator"
-      exit_code = base_script.CRITICAL
-      base_script.logger.info ("EXIT CODE: {}, {}".format(exit_code, message))
-      await base_script.monitoring_log_output(message,monitor_message, exit_code, reader, writer)
-   temperature_per_receiving_card = {}
-  #looping through each sender card found
-   i=0
-   for base_script.serial_port in sorted(base_script.valid_ports):
-      base_script.logger.info("*******************    DEVICE {}   *******************".format(i))
-      base_script.logger.info("Connecting to device on {}".format(base_script.serial_port))
-      base_script.ser.port = base_script.serial_port      
-      try: 
-         if base_script.ser.isOpen() == False:
-            base_script.ser.open()
-         base_script.ser.flushInput() #flush input buffer, discarding all its contents
-         base_script.ser.flushOutput() #flush output buffer, aborting current output and discard all that is in buffer
-         base_script.logger.info("Opened device on port: " + base_script.ser.name) # remove at production
-      except base_script.serialException as e:
-         message = f"Error opening base_script.serial port: {base_script.ser.name} - {str(e)}"
-         exit_code = base_script.CRITICAL
-         base_script.logger.error(message)
-         await base_script.monitoring_log_output(message,monitor_message, exit_code, reader, writer)
-         
-      # -------------------------------------
-      # RETRIEVE PARAMETERS FROM SENDER CARDS
-      # -------------------------------------
-      receiver_card_found = True
-      
-      base_script.status[base_script.serial_port]["receiverCard"]={}
-      display_on = True
-      for lan_value in range(total_lan_ports):
-         no_of_receiver_cards = 0
-         if not base_script.ser.is_open:
-            time.sleep(0.05)
-            base_script.ser.open()
-         while receiver_card_found != False: 
-            base_script.logger.info("=============================================================================================================================================")
-            base_script.logger.info ("Connecting to receiver number: {}".format(no_of_receiver_cards+1))    
-            try:     
-               if not get_receiver_connected(no_of_receiver_cards,lan_value):
-                  base_script.ser.close()
-                  break
-               temp_valid, temperature, voltage_valid, voltage, monitoring_card = get_receiver_temp_voltage(no_of_receiver_cards, lan_value)
-                              
-               if temp_valid and voltage_valid:
-                  _status = 0;  
-                  base_script.logger.info (f"Temperature: {temperature}")                
-                  base_script.logger.info (f"Voltage: {voltage}")                
-               elif temp_valid and not voltage_valid:
-                  _status = 1
-                  base_script.logger.info (f"Temperature: {temperature}")                
-                  base_script.logger.error (f"Voltage: {voltage}")    
-               elif not temp_valid and voltage_valid:
-                  _status = 1
-                  base_script.logger.error (f"Temperature: {temperature}")                
-                  base_script.logger.info (f"Voltage: {voltage}")      
-               else:
-                  _status = 1
-                  base_script.logger.error (f"Temperature: {temperature}")                
-                  base_script.logger.error (f"Voltage: {voltage}")  
-                                  
-               temperature_per_receiving_card[f"{no_of_receiver_cards + 1}"] = {"temperature":temperature, "status":_status}                             
-               no_of_receiver_cards += 1            
-            except Exception as e:
-               pass
+   temperature_per_receiving_card =[]
+   temp_valid, temperature, voltage_valid, voltage, monitoring_card = get_receiver_temp_voltage(no_of_receiver_cards, lan_value)                  
+   if temp_valid and voltage_valid:
+      _status = 0;  
+      base_script.logger.info (f"Temperature: {temperature}")                
+      base_script.logger.info (f"Voltage: {voltage}")                
+   elif temp_valid and not voltage_valid:
+      _status = 1
+      base_script.logger.info (f"Temperature: {temperature}")                
+      base_script.logger.error (f"Voltage: {voltage}")    
+   elif not temp_valid and voltage_valid:
+      _status = 1
+      base_script.logger.error (f"Temperature: {temperature}")                
+      base_script.logger.info (f"Voltage: {voltage}")      
+   else:
+      _status = 1
+      base_script.logger.error (f"Temperature: {temperature}")                
+      base_script.logger.error (f"Voltage: {voltage}")                                              
+   #default exit code is GOOD and message is indicating that all receiving cards are at a normal level of temperature and voltage
    exit_code = base_script.GOOD
-   message = "All receiving cards are at a normal level of temperature"
-   for k in temperature_per_receiving_card.keys():
-      if temperature_per_receiving_card[k]["status"] != 0:
-         exit_code = base_script.WARNING
-         message = "One or more receiving card's temperature are out of control"
-
-         break      
+   message = "All receiving cards are at a normal level of temperature/voltage"
+   # Check if the status is not 0, which means that at least one of the receiving cards has an issue with temperature or voltage and set the exit code to CRITICAL and message accordingly
+   if _status ==1:
+      exit_code = base_script.CRITICAL
+      message = "One or more receiving card's temperature/voltage are out of control"
+      
    if exit_code != base_script.GOOD:
       base_script.logger.error(f"{monitor_message}=1")
       base_script.logger.error(f"receiving_cards_temperature_output={message}")
    else:
       base_script.logger.info(f"{monitor_message}=0")
       base_script.logger.info(f"receiving_cards_temperature_output={message}")
-   base_script.ser.close() #closing 
-   base_script.logger.info ("EXIT CODE: {}, {}".format(exit_code, message))
-   await base_script.monitoring_log_output(message,monitor_message, exit_code, reader, writer)    
-          
 
+   base_script.logger.info ("EXIT CODE: {}, {}".format(exit_code, message))
+          
 #Get receiving card gets one parameter (receiving_card) that represent the physical receiving card found per sender card
 def get_receiver_temp_voltage(receiver_index_value, lan_value):
 # ---------------------------------------------------------------------------------------

@@ -22,7 +22,6 @@ async def check_dvi(reader, writer):
       
    # TODO: Include checks for brightness >0. This should be a WARNING.
    base_script.logger.info(f"EXIT CODE: {exit_code}, {message}")
-
 def get_DVI_signal_status(port):
 # ---------------------------------------------------------------------------------------
 # DVI SIGNAL CHECK

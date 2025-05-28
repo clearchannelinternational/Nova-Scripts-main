@@ -23,6 +23,7 @@ class base:
       self.ser = None
       self.config_panel = {}
       self.baudrates = []
+      self._logger_name = "display_status"
    if platform == "linux":
       dir = "/data/opt/LEDMonitoring"
       hostname = os.getenv('HOSTNAME', 'defaultValue')
@@ -32,12 +33,11 @@ class base:
    os.chdir(dir)
 
    # LOGGER
-   FORMATTER = logging.Formatter('%(asctime)s %(name)s %(levelname)-8s %(message)s', datefmt='%d/%m/%Y %H:%M:%S')
+   FORMATTER = logging.Formatter('%(asctime)s [%(levelname)-8s] %(message)s', datefmt='%Y/%m/%d %H:%M:%S')
    STATUS_FILE = "status.json"
    LOGGER_SCHEDULE = 'midnight'
    LOGGER_BACKUPS = 7
    LOGGER_INTERVAL = 1
-   LOGGER_NAME = "display_status"
    LOG_FILE = "debug.log" 
    MODEL_6XX = "MSD600/MCTRL600/MCTRL610/MCTRL660"
 
@@ -46,14 +46,13 @@ class base:
    WARNING = 1
    CRITICAL = 2
    UNKNOWN = 3
-   async def communicate_with_server(self, callback, check_name):
-
-      self.logger = methods.get_logger(check_name,self.LOG_FILE,self.FORMATTER,self.LOGGER_SCHEDULE,self.LOGGER_INTERVAL,self.LOGGER_BACKUPS) # Set up the logging  
+   async def communicate_with_server(self, callback):
+      self.logger = methods.get_logger(self._logger_name,self.LOG_FILE,self.FORMATTER,self.LOGGER_SCHEDULE,self.LOGGER_INTERVAL,self.LOGGER_BACKUPS) # Set up the logging  
       self.logger.info("ESTABLISHING CONNECTION WITH LOCAL SERVER QUEUE")
       reader, writer = await asyncio.open_connection("127.0.0.1",8888)
       if not reader and not writer:
          self.logger.error("COULD NOT ESTABLISH CONNECTION WITH 127.0.0.1 ON PORT 8888")
-      writer.write(f"{check_name}".encode())
+      writer.write(f"{self._logger_name}".encode())
       await writer.drain()
       self.logger.info("AWAITING PERMISSION TO USE COM PORTS FROM LOCAL SERVER")
       self.data = await reader.read(1024)
@@ -61,20 +60,20 @@ class base:
          self.logger.error("Could not make connection with localserver to access com port")
          self.session_handler(writer,reader)
          exit()
-      self.logger.info(f"PERMISSION TO USE COM PORT GRANTED STARTING {check_name} SCRIPT")
+      self.logger.info(f"PERMISSION TO USE COM PORT GRANTED STARTING {self._logger_name} SCRIPT")
       await callback(reader, writer) #callback is the method passed to run after permission is granted   
    async def initialize_program(self, reader, writer):
       
-      self.logger = methods.get_logger(self.LOGGER_NAME,self.LOG_FILE,self.FORMATTER,self.LOGGER_SCHEDULE,self.LOGGER_INTERVAL,self.LOGGER_BACKUPS) # Set up the logging
+      self.logger = methods.get_logger(self._logger_name,self.LOG_FILE,self.FORMATTER,self.LOGGER_SCHEDULE,self.LOGGER_INTERVAL,self.LOGGER_BACKUPS) # Set up the logging
       self.logger.info("*********************************************************************************************************************************************")
-      self.logger.info("5Eyes - Starting Display Status Checks")
-      self.config = loadConfig(self.LOGGER_NAME) # Load the configuration information
+      self.logger.info(f"Starting check {self._logger_name}")
+      self.config = loadConfig(self._logger_name) # Load the configuration information
       self.baudrates = self.config["baudrate"]
       self.logger.info("Version: {}, Baudrate: {}, Sleep Time: {}, Flash Timeout: {}".format(self.config["version"],self.baudrates,self.config["sleepTime"],self.config["flashWaitTime"]))
       self.last_updated = datetime.datetime.now().strftime("%d/%m/%Y %H:%M")
       sleep_time = float(self.config["sleepTime"])
       self.flash_wait_time = float(self.config["flashWaitTime"])
-      self.data = read_data(self.STATUS_FILE,self.LOGGER_NAME)
+      self.data = read_data(self.STATUS_FILE,self._logger_name)
       self.status = {} # Initialise variable to store status data\
       self.modules_ok = True # assume all modules are ok to start off
       self.number_of_modules = self.config["modules"]
@@ -85,7 +84,7 @@ class base:
          self.config_panel = self.config['default']
       
       for baudrate in self.baudrates:
-         self.ser = methods.setupSerialPort(baudrate,self.LOGGER_NAME) # Initialise serial port
+         self.ser = methods.setupSerialPort(baudrate,self._logger_name) # Initialise serial port
          self.device_found, self.valid_ports = self.search_devices()
 
          #Validate device found on player
@@ -95,7 +94,7 @@ class base:
          self.logger.info ("EXIT CODE: {}, {}".format(exit_code, message))
          await self.monitoring_log_output(message, exit_code, reader, writer)
    def search_devices(self): # Searches for all sender cards connected to each USB port (/dev/ttyUSBX) on the system
-      self.logger = logging.getLogger(self.LOGGER_NAME)
+      self.logger = logging.getLogger(self._logger_name)
       ports = serial.tools.list_ports.comports()
       self.logger.info("Found {} serial ports".format(len(ports)))
       device_found = 0
@@ -142,7 +141,7 @@ class base:
       self.logger.info("Found {} device(s)".format(device_found))
       return device_found, valid_ports
    def check_response(self, received_data):
-      self.logger = logging.getLogger(self.LOGGER_NAME)
+      self.logger = logging.getLogger(self._logger_name)
       try:
          if (received_data[2]==0):   
             return True
@@ -175,7 +174,7 @@ class base:
       except Exception as e:
          self.logger.error(f"Error sending completion message: {e}")
       with open("monitor_log.log", "w") as log:
-            log.write(f"{monitor_message}={alarm}")
+            log.writelines(f"{monitor_message}={alarm}")
       exit()
    async def session_handler(self, writer, reader):
       writer.write(b"Done")

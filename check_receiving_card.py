@@ -56,8 +56,14 @@ async def main(reader, writer):
                total_receiver_cards_found += 1
             except Exception as e:
                print("")
-   if total_receiver_cards_found != total_receiver_cards: message, exit_code = f"NO of receiver cards {total_receiver_cards_found} EXPECTED {total_receiver_cards}", base_script.CRITICAL
-   else: message, exit_code = f"NO of receiver cards {total_receiver_cards_found} EXPECTED {total_receiver_cards}", base_script.GOOD
+   if total_receiver_cards_found != total_receiver_cards: 
+      message, exit_code = f"NO of receiver cards {total_receiver_cards_found} EXPECTED {total_receiver_cards}", base_script.CRITICAL
+      base_script.logger.error(f"{monitor_message}=1")
+      base_script.logger.error(f"receiving_cards_output={message}")
+   else: 
+      message, exit_code = f"NO of receiver cards {total_receiver_cards_found} EXPECTED {total_receiver_cards}", base_script.GOOD
+      base_script.logger.info(f"{monitor_message}=0")
+      base_script.logger.info(f"receiving_cards_output={message}")
    base_script.ser.close() #closing 
    base_script.logger.info("Writing to JSON file")
    
@@ -79,7 +85,7 @@ def get_receiver_connected(port, receiver_index_value, lan_value):
 # ---------------------------------------------------------------------------------------
 # CHECK CONNECTION TO RECEIVER CARD
 # ---------------------------------------------------------------------------------------   
-   base_script.logger = logging.getLogger(base_script.LOGGER_NAME)
+   base_script.logger = logging.getLogger(base_script._logger_name)
    check_receiver_model [7] = lan_value
    check_receiver_model [8] = receiver_index_value
    check_receiver_model_send = methods.checksum (check_receiver_model)
@@ -103,5 +109,5 @@ def get_receiver_connected(port, receiver_index_value, lan_value):
 # PROGRAM ENTRY POINT - this won't be run only when imported from external module
 # ------------------------------------------------------------------------------------------------------------
 if __name__ == "__main__":
-    
-   asyncio.run(base_script.communicate_with_server(main, "check receiving cards"))
+   base_script._logger_name = "check receiving cards"
+   asyncio.run(base_script.communicate_with_server(main))

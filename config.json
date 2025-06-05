@@ -32,5 +32,10 @@
         "devices": 1,
         "receiver_cards": 244,
         "lan_ports": 4
+    },
+    "UK-RO-STM-C019": {
+        "devices": 1,
+        "receiver_cards": 42,
+        "lan_ports": 1
     }
 }

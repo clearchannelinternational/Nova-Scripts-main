@@ -231,10 +231,3 @@ def get_receiver_card_firmware(port, receiver_index_value, lan_value):
          FPGA="N/A"
    base_script.status[port]["receiverCard"][receiver_index_value]["receiverFPGA"]=FPGA
    logger.info('Receiver Card FPGA Firmware version: {}'.format(FPGA))
-# ------------------------------------------------------------------------------------------------------------
-# PROGRAM ENTRY POINT - this won't be run only when imported from external module
-# ------------------------------------------------------------------------------------------------------------
-if __name__ == "__main__":
-    
-   asyncio.run(base_script.communicate_with_server(main, "check_cabinet"))
-

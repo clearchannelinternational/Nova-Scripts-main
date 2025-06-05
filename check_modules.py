@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 import asyncio
 from base_monitoring import *
-<<<<<<< HEAD
 async def check_modules(base_script, no_of_receiver_cards, lan_value):
    monitor_message = "module"
    module_status_info = {}
@@ -14,21 +13,6 @@ async def check_modules(base_script, no_of_receiver_cards, lan_value):
    get_receiver_card_firmware(base_script, no_of_receiver_cards, lan_value) #not necessary 
 
    number_of_modules, modules_ok = get_module_status(base_script, base_script.modules_ok,no_of_receiver_cards,lan_value) #required
-=======
-base_script = base()
-async def check_modules(no_of_receiver_cards, lan_value):
-   monitor_message = "Modules"
-   module_status_info = {}
-   expected_modules = base_script.config['modules']
-
-   # ---------------------------------------
-   # RETRIEVE PARAMETERS FROM RECEIVER CARDS
-   # ---------------------------------------
-   get_receiver_card_model(base_script.serial_port, no_of_receiver_cards, lan_value) #not necessary 
-   get_receiver_card_firmware(base_script.serial_port, no_of_receiver_cards, lan_value) #not necessary 
-
-   number_of_modules, modules_ok = get_module_status(base_script.serial_port,  base_script.modules_ok,no_of_receiver_cards,lan_value) #required
->>>>>>> 94990be71ff2d73a04472b6c6845ed7a7d6d72d7
    #TODO: log each receiving card module information !
    if modules_ok:
       base_script.logger.info(f"Receiver {no_of_receiver_cards} MODULES FOUND: {number_of_modules} EXPECTED: {expected_modules}")
@@ -48,13 +32,8 @@ async def check_modules(no_of_receiver_cards, lan_value):
    else:
       message = f"ALL MODULES OK"
       exit_code = base_script.GOOD
-<<<<<<< HEAD
       base_script.logger.info(f"{monitor_message}_alarm=0")
       base_script.logger.info(f"{monitor_message}_output={message}")
-=======
-      base_script.logger.info(f"{monitor_message}=0")
-      base_script.logger.info(f"modules_output={message}")
->>>>>>> 94990be71ff2d73a04472b6c6845ed7a7d6d72d7
 #################################################################################################
 def get_module_status(base_script,  modules_ok,receiver_index_value, lan_value):
 #-----------------------------------------------------------------

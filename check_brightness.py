@@ -1,56 +1,29 @@
 #!/usr/bin/env python3
 from base_monitoring import *
-<<<<<<< HEAD
 async def check_brightness(base_script):
    base_script = base_script
    exit_code = base_script.UNKNOWN
    monitor_message = "brightness"
    output = []        
    try: 
-=======
-base_script = base()
-async def check_brightness(reader, writer):
-
-   exit_code = base_script.UNKNOWN
-   monitor_message = "check_brightness"
-   output = []        
-   try: 
-      if base_script.ser.isOpen() == False:
-         base_script.ser.open()
->>>>>>> 94990be71ff2d73a04472b6c6845ed7a7d6d72d7
       base_script.ser.flushInput() #flush input buffer, discarding all its contents
       base_script.ser.flushOutput() #flush output buffer, aborting current output and discard all that is in buffer
       base_script.logger.info("Opened device on port: " + base_script.ser.name) # remove at production
       # Retrieve parameters from sender cards
-<<<<<<< HEAD
       brightness_value, exit_code = get_display_brightness(base_script) 
-=======
-      brightness_value, exit_code = get_display_brightness(base_script.ser.port) 
-      base_script.ser.close() #closing 
->>>>>>> 94990be71ff2d73a04472b6c6845ed7a7d6d72d7
       base_script.logger.info("Writing to JSON file")
       base_script.logger.info("{} closed".format(base_script.ser.is_open)) # remove at production?
 
       if exit_code == base_script.GOOD and brightness_value > 0: 
          message = "Brightness OK"
-<<<<<<< HEAD
          base_script.logger.info(f"{monitor_message}_alarm=0")
          base_script.logger.info(f"{monitor_message}_output={message}")
-=======
-         base_script.logger.info(f"{monitor_message}=0")
-         base_script.logger.info(f"brightness_message={message}")
->>>>>>> 94990be71ff2d73a04472b6c6845ed7a7d6d72d7
          base_script.logger.info(f"brightness_value={brightness_value}%")
          
       else:
          message = "Brightness Not OK" 
-<<<<<<< HEAD
          base_script.logger.critical(f"{monitor_message}=1")
          base_script.logger.critical(f"{monitor_message}_output={message}")
-=======
-         base_script.logger.critical(f"{monitor_message}=0")
-         base_script.logger.critical(f"brightness_message={message}")
->>>>>>> 94990be71ff2d73a04472b6c6845ed7a7d6d72d7
          base_script.logger.critical(f"brightness_value={brightness_value}%")
    except Exception as e:
       base_script.logger.error(f"{e}")

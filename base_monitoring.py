@@ -63,32 +63,6 @@ class base:
          exit()
       self.logger.info(f"PERMISSION TO USE COM PORT GRANTED STARTING {self._logger_name} SCRIPT")
       await callback(reader, writer) #callback is the method passed to run after permission is granted   
-      async def iter_connected_receivers(self):
-         """
-         Yields (serial_port, lan_value, receiver_index) for each connected receiver card.
-         """
-         total_lan_ports = self.config_panel.get("lan_ports", 0)
-         total_receiver_cards = self.config_panel.get("receiver_cards", 0)
-         for serial_port in sorted(self.valid_ports):
-            self.ser.port = serial_port
-            try:
-                  if not self.ser.isOpen():
-                     self.ser.open()
-                  self.ser.flushInput()
-                  self.ser.flushOutput()
-            except Exception as e:
-                  self.logger.error(f"Error opening serial port: {serial_port} - {str(e)}")
-                  continue
-
-            for lan_value in range(total_lan_ports):
-                  receiver_index = 0
-                  while True:
-                     if not self.get_receiver_connected(serial_port, receiver_index, lan_value):
-                        break
-                     yield serial_port, lan_value, receiver_index
-                     receiver_index += 1
-
-            self.ser.close()
    async def initialize_program(self):      
       self.logger = methods.get_logger(self._logger_name,self.LOG_FILE,self.FORMATTER,self.LOGGER_SCHEDULE,self.LOGGER_INTERVAL,self.LOGGER_BACKUPS) # Set up the logging
       self.logger.info("*********************************************************************************************************************************************")
@@ -112,12 +86,15 @@ class base:
       for baudrate in self.baudrates:
          self.ser = methods.setupSerialPort(baudrate,self._logger_name) # Initialise serial port
          self.device_found, self.valid_ports = self.search_devices()
+         if self.device_found:
+            break
 
          #Validate device found on player
       if not self.valid_ports:
          message = "NO DEVICE - make sure a valid controller is connected, that the correct baudrate is defined in config.json and ensure the NOVA LCT is not running on the host system \nThis can also mean that you don't run the tool as administrator"
          exit_code = self.CRITICAL
          self.logger.info ("EXIT CODE: {}, {}".format(exit_code, message))
+         sys.exit(2)
    def search_devices(self): # Searches for all sender cards connected to each USB port (/dev/ttyUSBX) on the system
       self.logger = logging.getLogger(self._logger_name)
       ports = serial.tools.list_ports.comports()

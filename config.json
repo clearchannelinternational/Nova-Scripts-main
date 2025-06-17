@@ -37,5 +37,10 @@
         "devices": 1,
         "receiver_cards": 42,
         "lan_ports": 1
+    },
+    "UK-RO-STM-C007": {
+        "devices": 1,
+        "receiver_cards": 42,
+        "lan_ports": 3
     }
 }
